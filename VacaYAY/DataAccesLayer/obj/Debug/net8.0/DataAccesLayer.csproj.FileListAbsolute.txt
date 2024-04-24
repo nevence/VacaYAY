@@ -1,0 +1,15 @@
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\bin\Debug\net8.0\DataAccesLayer.deps.json
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\bin\Debug\net8.0\DataAccesLayer.runtimeconfig.json
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\bin\Debug\net8.0\DataAccesLayer.dll
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\bin\Debug\net8.0\DataAccesLayer.pdb
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\obj\Debug\net8.0\DataAccesLayer.csproj.AssemblyReference.cache
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\obj\Debug\net8.0\DataAccesLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\obj\Debug\net8.0\DataAccesLayer.AssemblyInfoInputs.cache
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\obj\Debug\net8.0\DataAccesLayer.AssemblyInfo.cs
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\obj\Debug\net8.0\DataAccesLayer.csproj.CoreCompileInputs.cache
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\obj\Debug\net8.0\DataAccesLayer.sourcelink.json
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\obj\Debug\net8.0\DataAccesLayer.dll
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\obj\Debug\net8.0\refint\DataAccesLayer.dll
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\obj\Debug\net8.0\DataAccesLayer.pdb
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\obj\Debug\net8.0\DataAccesLayer.genruntimeconfig.cache
+C:\Users\neven\Desktop\Projekti\VacaYAY\VacaYAY\VacaYAY\DataAccesLayer\obj\Debug\net8.0\ref\DataAccesLayer.dll
