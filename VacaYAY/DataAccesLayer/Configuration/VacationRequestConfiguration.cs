@@ -13,8 +13,6 @@ namespace DataAccesLayer.Configuration
     {
         public void Configure(EntityTypeBuilder<VacationRequest> builder)
         {
-            builder.HasKey(v => v.Id);
-            builder.HasOne<Employee>(v => v.Employee).WithMany(e => e.VacationRequests).HasForeignKey(v => v.EmployeeId);
             builder.Property(v => v.StartDate).IsRequired();
             builder.Property(v => v.EndDate).IsRequired();
             builder.Property(v => v.Status).HasMaxLength(50).HasConversion<string>().IsRequired();

@@ -3,6 +3,8 @@ using DataAccesLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
+using DataAccesLayer.Contracts;
+using DataAccesLayer.Repositories;
 
 
 namespace PresentationLayer.Extensions
@@ -24,6 +26,9 @@ namespace PresentationLayer.Extensions
            })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+        public static void ConfigureRepositoryManager(this IServiceCollection services) =>
+             services.AddScoped<IRepositoryManager, RepositoryManager>();
 
     }
 }

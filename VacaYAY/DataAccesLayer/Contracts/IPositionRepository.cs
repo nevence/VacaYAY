@@ -8,11 +8,8 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace DataAccesLayer.Contracts
 {
-    public interface IPositionRepository
+    public interface IPositionRepository : IRepositoryBase<Position>
     {
-        Task<IEnumerable<Position>> GetAllPositionsAsync(bool trackChanges);
-        Task<Position> GetPositionAsync(int positionId, bool trackChanges);
-        void CreatePosition(Position position);
-        void DeletePosition(Position position);
+
     }
 }

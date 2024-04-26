@@ -17,25 +17,5 @@ namespace DataAccesLayer.Repositories
         {
             _context = context;
         }
-
-        public void CreateVacationRequest(int employeeId, VacationRequest request)
-        {
-            request.EmployeeId = employeeId;
-            Create(request);
-        }
-
-        public void DeleteVacationRequest(VacationRequest request)
-        {
-            Delete(request);
-        }
-
-        public async Task<IEnumerable<VacationRequest>> GetAllVacationRequestsAsync(int employeeId, bool trackChanges) =>
-            await FindByCondition(v => v.EmployeeId.Equals(employeeId), trackChanges)
-            .OrderBy(v => v.InsertDate)
-            .ToListAsync();
-
-
-        public async Task<VacationRequest> GetVacationRequestAsync(int employeeId, int requestId, bool trackChanges) =>
-            await FindByCondition(v => v.EmployeeId.Equals(employeeId) && v.Id.Equals(requestId), trackChanges).SingleOrDefaultAsync();
     }
 }

@@ -7,11 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccesLayer.Contracts
 {
-    public interface IVacationRequestRepository
+    public interface IVacationRequestRepository : IRepositoryBase<VacationRequest>
     {
-        Task<IEnumerable<VacationRequest>> GetAllVacationRequestsAsync(int employeeId, bool trackChanges);
-        Task<VacationRequest> GetVacationRequestAsync(int employeeId, int requestId, bool trackChanges);
-        void CreateVacationRequest(int employeeId, VacationRequest request);
-        void DeleteVacationRequest(VacationRequest request);
     }
 }

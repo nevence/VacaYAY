@@ -13,7 +13,6 @@ namespace DataAccesLayer.Configuration
     {
         public void Configure(EntityTypeBuilder<Position> builder)
         {
-            builder.HasKey(p => p.Id);
             builder.Property(p => p.Caption).HasMaxLength(50).HasConversion<string>().IsRequired();
             builder.Property(p => p.Description).HasMaxLength(512).IsRequired();
             builder.Property(p => p.InsertDate).IsRequired();

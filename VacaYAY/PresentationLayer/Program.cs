@@ -11,6 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureIdentity(builder.Configuration);
 builder.Services.AddScoped<DataSeeder>();
+builder.Services.ConfigureRepositoryManager();
 
 var app = builder.Build();
 
@@ -27,8 +28,7 @@ using (var scope = app.Services.CreateScope())
         dataSeeder.SeedVacationRequests();
     }
     catch (Exception ex)
-    {
-        Console.WriteLine("Nije uspelo");
+    { 
         Console.WriteLine(ex.Message);
     }
 }

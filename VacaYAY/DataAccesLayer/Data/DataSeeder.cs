@@ -21,49 +21,61 @@ namespace DataAccesLayer.Data
 
         public async Task SeedEmployeesAndPositionsAsync()
         {
-            if (!_context.Positions.Any())
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                var positions = new List<Position>
+                try
                 {
-                    new Position { Caption = PositionCaption.HRManager, Description = "HR Manager position" },
-                    new Position { Caption = PositionCaption.ProcurementOfficer, Description = "Procurement position" }
-                };
-
-                _context.Positions.AddRange(positions);
-                _context.SaveChanges();
-            }
-
-            if (!_userManager.Users.Any())
-            {
-                var employees = new List<Employee>
-                {
-                    new Employee { UserName = "nevenceminic@gmail.com", Email="nevenceminic@gmail.com", FirstName = "John", LastName = "Doe", PositionId = 1, 
-                                   Address = "A.M. 20", IDNumber = "123456789", DaysOffNumber = 20,
-                                   EmploymentStartDate = DateTime.Now.AddDays(-365)}, 
-
-                    new Employee { UserName = "bananagrana000@gmail.com", Email="bananagrana000@gmail.com", FirstName = "Jane", LastName = "Smith", PositionId = 2, 
-                                   Address = "A.M. 10", IDNumber = "987654321", DaysOffNumber = 22, 
-                                   EmploymentStartDate = DateTime.Now.AddDays(-180) }, 
-                };
-
-                foreach (var employee in employees)
-                {
-                    var result = await _userManager.CreateAsync(employee, "Lozinka123.");
-
-                    if (result.Succeeded)
+                    if (!_context.Positions.Any())
                     {
-                        if (employee.FirstName == "John")
-                            await _userManager.AddToRoleAsync(employee, "HR");
-                        else
-                            await _userManager.AddToRoleAsync(employee, "Employee");
-                    }
-                    else
-                    {
-                        foreach (var error in result.Errors)
+                        var positions = new List<Position>
                         {
-                            Console.WriteLine($"Error: {error.Code} - {error.Description}");
+                            new Position { Caption = PositionCaption.HRManager, Description = "HR Manager position" },
+                            new Position { Caption = PositionCaption.ProcurementOfficer, Description = "Procurement position" }
+                        };
+
+                        _context.Positions.AddRange(positions);
+                        _context.SaveChanges();
+                    }
+
+                    if (!_userManager.Users.Any())
+                    {
+                        var employees = new List<Employee>
+                        {
+                            new Employee { UserName = "nevenceminic@gmail.com", Email="nevenceminic@gmail.com", FirstName = "John", LastName = "Doe", PositionId = 1,
+                                               Address = "A.M. 20", IDNumber = "123456789", DaysOffNumber = 20,
+                                               EmploymentStartDate = DateTime.Now.AddDays(-365)},
+
+                            new Employee { UserName = "bananagrana000@gmail.com", Email="bananagrana000@gmail.com", FirstName = "Jane", LastName = "Smith", PositionId = 2,
+                                               Address = "A.M. 10", IDNumber = "987654321", DaysOffNumber = 22,
+                                               EmploymentStartDate = DateTime.Now.AddDays(-180) },
+                        };
+
+                        foreach (var employee in employees)
+                        {
+                            var result = await _userManager.CreateAsync(employee, "Lozinka123.");
+
+                            if (result.Succeeded)
+                            {
+                                if (employee.FirstName == "John")
+                                    await _userManager.AddToRoleAsync(employee, "HR");
+                                else
+                                    await _userManager.AddToRoleAsync(employee, "Employee");
+                            }
+                            else
+                            {
+                                foreach (var error in result.Errors)
+                                {
+                                    Console.WriteLine($"Error: {error.Code} - {error.Description}");
+                                }
+                            }
                         }
                     }
+                   transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    transaction.Rollback();
                 }
             }
         }

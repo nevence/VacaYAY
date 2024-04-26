@@ -13,8 +13,6 @@ namespace DataAccesLayer.Configuration
     {
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
-            builder.HasKey(e => e.Id);
-            builder.HasOne<Position>(e => e.Position).WithMany(p => p.Employees).HasForeignKey(e => e.PositionId);
             builder.Property(e => e.FirstName).HasMaxLength(50).IsRequired();
             builder.Property(e => e.LastName).HasMaxLength(50).IsRequired();
             builder.Property(e => e.Address).HasMaxLength(512).IsRequired();
