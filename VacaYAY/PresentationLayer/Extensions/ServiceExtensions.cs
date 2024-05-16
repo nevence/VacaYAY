@@ -5,6 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using DataAccesLayer.Contracts;
 using DataAccesLayer.Repositories;
+using DataAccesLayer.Interceptors;
+using BusinessLogicLayer.Contracts;
+using BusinessLogicLayer.Services;
 
 
 namespace PresentationLayer.Extensions
@@ -12,11 +15,15 @@ namespace PresentationLayer.Extensions
     public static class ServiceExtensions
     {
         public static void ConfigureSqlContext(this IServiceCollection services,
-            IConfiguration configuration) =>
-            services.AddDbContext<ApplicationDbContext>(opts =>
-            opts.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
+            IConfiguration configuration)
+        { 
+            services.AddTransient<SoftDeleteInterceptor>();
+            services.AddDbContext<ApplicationDbContext>((sp, opts) =>
+            opts.UseSqlServer(configuration.GetConnectionString("sqlConnection"))
+            .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>()));
+        }
 
-        public static void ConfigureIdentity(this IServiceCollection services, IConfiguration configuration) =>
+    public static void ConfigureIdentity(this IServiceCollection services, IConfiguration configuration) =>
            services.AddIdentity<Employee, IdentityRole<int>>(opt =>
            {
                opt.Password.RequiredLength = 8;
@@ -29,6 +36,9 @@ namespace PresentationLayer.Extensions
 
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
              services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+        public static void ConfigureServiceManager(this IServiceCollection services) =>
+           services.AddScoped<IServiceManager, ServiceManager>();
 
     }
 }

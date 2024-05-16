@@ -19,6 +19,9 @@ namespace DataAccesLayer.Configuration
             builder.Property(e => e.DaysOffNumber).IsRequired();
             builder.Property(e => e.EmploymentStartDate).IsRequired();
             builder.Property(e => e.InsertDate).IsRequired();
+            builder.HasQueryFilter(e => !e.IsDeleted);
+            builder.HasIndex(e => e.IsDeleted)
+            .HasFilter("IsDeleted = 0");
         }
     }
 }
