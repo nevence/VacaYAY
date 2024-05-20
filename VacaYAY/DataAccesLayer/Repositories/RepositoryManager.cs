@@ -11,27 +11,22 @@ namespace DataAccesLayer.Repositories
     public sealed class RepositoryManager : IRepositoryManager
     {
         private readonly ApplicationDbContext _context;
-        private readonly Lazy<IPositionRepository> _positionRepository;
-        private readonly Lazy<IVacationRequestRepository> _vacationRequestRepository;
+        private readonly IPositionRepository _positionRepository;
+        private readonly IVacationRequestRepository _vacationRequestRepository;
 
         public RepositoryManager(ApplicationDbContext context)
         {
             _context = context;
-
-            _positionRepository = new Lazy<IPositionRepository>(() =>
-            new PositionRepository(context));
-
-            _vacationRequestRepository = new Lazy<IVacationRequestRepository>(() => new VacationRequestRepository(context));
-           
+            _positionRepository = new PositionRepository(context);
+            _vacationRequestRepository = new VacationRequestRepository(context);
         }
-        public IPositionRepository Position => _positionRepository.Value;
 
-        public IVacationRequestRepository VacationRequest => _vacationRequestRepository.Value;
+        public IPositionRepository Position => _positionRepository;
+        public IVacationRequestRepository VacationRequest => _vacationRequestRepository;
 
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
-
         }
     }
 }

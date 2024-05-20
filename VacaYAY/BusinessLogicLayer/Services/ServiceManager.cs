@@ -12,17 +12,16 @@ namespace BusinessLogicLayer.Services
 {
     public sealed class ServiceManager : IServiceManager
     {
-        private readonly Lazy<IAuthService> _authService;
-
+        private readonly IAuthService _authService;
 
         public ServiceManager(IRepositoryManager repositoryManager,
-            UserManager<Employee> userManager, SignInManager<Employee> signInManager)
+                              UserManager<Employee> userManager,
+                              SignInManager<Employee> signInManager)
         {
-
-            _authService = new Lazy<IAuthService>(() => new AuthService(userManager, signInManager));
+            _authService = new AuthService(userManager, signInManager);
         }
 
-        public IAuthService AuthService => _authService.Value;
+        public IAuthService AuthService => _authService;
     }
 
 }

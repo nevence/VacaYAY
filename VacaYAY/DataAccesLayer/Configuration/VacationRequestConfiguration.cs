@@ -21,8 +21,6 @@ namespace DataAccesLayer.Configuration
             builder.Property(v => v.EmployeeComment).HasMaxLength(-1);
             builder.Property(v => v.InsertDate).IsRequired();
             builder.HasQueryFilter(v => !v.IsDeleted);
-            builder.HasIndex(v => v.IsDeleted)
-            .HasFilter("IsDeleted = 0");
         }
     }
 }
