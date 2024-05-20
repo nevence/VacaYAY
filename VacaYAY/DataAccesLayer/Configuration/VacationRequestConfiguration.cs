@@ -20,6 +20,7 @@ namespace DataAccesLayer.Configuration
             builder.Property(v => v.HRComment).HasMaxLength(-1);
             builder.Property(v => v.EmployeeComment).HasMaxLength(-1);
             builder.Property(v => v.InsertDate).IsRequired();
+            builder.HasQueryFilter(v => !v.IsDeleted);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace PresentationLayer.Migrations
                     b.Property<int>("DaysOffNumber")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DeleteDate")
+                    b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -55,7 +55,7 @@ namespace PresentationLayer.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("EmploymentEndDate")
+                    b.Property<DateTime?>("EmploymentEndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EmploymentStartDate")
@@ -72,6 +72,9 @@ namespace PresentationLayer.Migrations
 
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -110,7 +113,7 @@ namespace PresentationLayer.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("UpdateDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")
@@ -145,7 +148,7 @@ namespace PresentationLayer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("DeleteDate")
+                    b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -156,7 +159,10 @@ namespace PresentationLayer.Migrations
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("UpdateDate")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -172,11 +178,10 @@ namespace PresentationLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DeleteDate")
+                    b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmployeeComment")
-                        .IsRequired()
                         .HasMaxLength(-1)
                         .HasColumnType("nvarchar(max)");
 
@@ -187,12 +192,14 @@ namespace PresentationLayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("HRComment")
-                        .IsRequired()
                         .HasMaxLength(-1)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LeaveType")
                         .IsRequired()
@@ -210,7 +217,7 @@ namespace PresentationLayer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("UpdateDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");

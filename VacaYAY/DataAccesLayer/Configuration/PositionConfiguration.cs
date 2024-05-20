@@ -16,6 +16,7 @@ namespace DataAccesLayer.Configuration
             builder.Property(p => p.Caption).HasMaxLength(50).HasConversion<string>().IsRequired();
             builder.Property(p => p.Description).HasMaxLength(512).IsRequired();
             builder.Property(p => p.InsertDate).IsRequired();
+            builder.HasQueryFilter(p => !p.IsDeleted);
         }
     }
 }

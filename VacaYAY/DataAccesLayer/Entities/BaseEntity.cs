@@ -10,7 +10,8 @@ namespace DataAccesLayer.Entities
     {
         public int Id { get; init; }
         public DateTime InsertDate { get; init; } = DateTime.Now;
-        public DateTime UpdateDate { get; set; }
-        public DateTime DeleteDate { get; set; } 
+        public DateTime? UpdateDate { get; set; }
+        public DateTime? DeleteDate { get; set; } 
+        public bool IsDeleted { get; set; } = false;
     }
 }

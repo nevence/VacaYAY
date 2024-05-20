@@ -28,8 +28,8 @@ namespace DataAccesLayer.Entities
         public DateTime EndDate { get; set; }
         public VacationRequestStatus Status { get; set; } = VacationRequestStatus.Pending;
         public VacationRequestLeaveType LeaveType { get; set; }
-        public string HRComment { get; set; }
-        public string EmployeeComment { get; set; } 
+        public string? HRComment { get; set; }
+        public string? EmployeeComment { get; set; } 
         public DateTime RequestDate { get; init; } = DateTime.Now;
     }
 }

@@ -17,10 +17,11 @@ namespace DataAccesLayer.Entities
         public int PositionId { get; set; }
         public Position Position {  get; set; }
         public DateTime EmploymentStartDate { get; set; }
-        public DateTime EmploymentEndDate { get; set; }
+        public DateTime? EmploymentEndDate { get; set; }
         public DateTime InsertDate { get; init; } = DateTime.Now;
-        public DateTime DeleteDate { get; set; }
-        public DateTime UpdateDate { get; set; }   
+        public DateTime? DeleteDate { get; set; }
+        public DateTime? UpdateDate { get; set; }   
+        public bool IsDeleted { get; set; } = false;
         public ICollection<VacationRequest> VacationRequests { get; set; }
     }
 }
