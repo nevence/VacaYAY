@@ -8,8 +8,6 @@ namespace BusinessLogicLayer.Contracts
 {
     public interface IServiceManager
     {
-        IPositionService PositionService { get; }
-        IVacationRequestService VacationRequestService { get; }
         IAuthService AuthService { get; }
     }
 }

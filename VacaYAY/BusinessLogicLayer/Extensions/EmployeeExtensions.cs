@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,26 +48,25 @@ namespace BusinessLogicLayer.Extensions
             };
         }
 
-        public static Employee MapToEmployeeUpdate(this Employee user, EmployeeForUpdateDto employeeForUpdate)
+        public static void MapToEmployeeUpdate(this Employee user, EmployeeForUpdateDto employeeForUpdate)
         {
-            PropertyInfo[] properties = typeof(EmployeeForUpdateDto).GetProperties();
+            user.FirstName = employeeForUpdate.FirstName;
+            user.LastName = employeeForUpdate.LastName;
+            user.Address = employeeForUpdate.Address;
+            user.IDNumber = employeeForUpdate.IDNumber;
+            user.DaysOffNumber = employeeForUpdate.DaysOffNumber;
+            user.PositionId = employeeForUpdate.PositionId;
+            user.EmploymentEndDate = employeeForUpdate.EmploymentEndDate;
+            user.UpdateDate = DateTime.UtcNow;
 
-            foreach (var property in properties)
-            {
-                var value = property.GetValue(employeeForUpdate);
+        }
 
-                if (value != null)
-                {
-                    var correspondingProperty = typeof(Employee).GetProperty(property.Name);
-
-                    if (correspondingProperty != null)
-                    {
-                        correspondingProperty.SetValue(user, value);
-                    }
-                }
-            }
-            return user;
-
+        public static void MapToEmployeeDelete(this Employee user)
+        {
+            user.IsDeleted = true;
+            user.DeleteDate = DateTime.UtcNow;
+            user.LockoutEnabled = true;
+            user.LockoutEnd = DateTime.UtcNow.AddYears(100);
         }
     }
 

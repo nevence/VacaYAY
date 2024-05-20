@@ -8,5 +8,6 @@ namespace BusinessLogicLayer.Dto.EmployeeDto
 {
     public record EmployeeForUpdateDto : EmployeeForManipulationDto
     {
+
     }
 }

@@ -10,12 +10,13 @@ namespace BusinessLogicLayer.Contracts
 {
     public interface IAuthService
     {
-        Task<IdentityResult> RegisterUser(EmployeeForRegistrationDto employeeForRegistration);
-        Task<SignInResult> Login(EmployeeForAuthenticationDto employeeForAuth);
-        Task<IdentityResult> DeleteUser(int employeeId);
-        Task<IdentityResult> ChangePassword(int employeeId, ChangePasswordDto changePassword);
-        Task<IdentityResult> UpdateUser(int employeeId, EmployeeForUpdateDto employeeForUpdate);
-        IEnumerable<EmployeeDto> GetUsers();
+        Task<bool> RegisterUser(EmployeeForRegistrationDto employeeForRegistration);
+        Task<bool> Login(EmployeeForAuthenticationDto employeeForAuth);
+        Task<bool> DeleteUser(int employeeId);
+        Task<bool> ChangePassword(int employeeId, ChangePasswordDto changePassword);
+        Task<bool> UpdateUser(int employeeId, EmployeeForUpdateDto employeeForUpdate);
+        Task<IEnumerable<EmployeeDto>> GetUsers();
+        Task<EmployeeDto> GetUser(int employeeId);
         Task Logout();
     }
 }

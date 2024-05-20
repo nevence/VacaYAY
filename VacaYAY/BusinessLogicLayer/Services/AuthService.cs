@@ -4,11 +4,13 @@ using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Extensions;
 using DataAccesLayer.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BusinessLogicLayer.Services
 {
@@ -22,56 +24,69 @@ namespace BusinessLogicLayer.Services
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        public async Task<IdentityResult> ChangePassword(int employeeId, ChangePasswordDto changePassword)
+        public async Task<bool> ChangePassword(int employeeId, ChangePasswordDto changePassword)
         {
             var user = await _userManager.FindByIdAsync(employeeId.ToString());
-            if (user == null)
-            {
-                throw new NotFoundException(employeeId);
-            }
+
+            Guard.ThrowIfNotFound(user, employeeId);
 
             var result = await _userManager.ChangePasswordAsync(user, changePassword.CurrentPassword, changePassword.NewPassword);
-            return result;
+
+            Guard.ThrowIfFailedIdentity(result);
+
+            return result.Succeeded;
         }
 
-        public async Task<IdentityResult> DeleteUser(int employeeId)
+        public async Task<bool> DeleteUser(int employeeId)
         {
             var user = await _userManager.FindByIdAsync(employeeId.ToString());
-            if (user == null)
-            {
-                throw new NotFoundException(employeeId);
-            }
 
-            user.IsDeleted = true;
-            user.DeleteDate = DateTime.UtcNow;
-            user.LockoutEnabled = true;
-            user.LockoutEnd = DateTime.UtcNow.AddYears(100);
+            Guard.ThrowIfNotFound(user, employeeId);
+
+            user.MapToEmployeeDelete();
 
             var result = await _userManager.UpdateAsync(user);
-            return result;
+
+            Guard.ThrowIfFailedIdentity(result);
+
+            return result.Succeeded;
+
         }
 
-        public IEnumerable<EmployeeDto> GetUsers()
+        public async Task<EmployeeDto> GetUser(int employeeId)
         {
-            var users = _userManager.Users
+            var user = await _userManager.FindByIdAsync(employeeId.ToString());
+
+            Guard.ThrowIfNotFound(user, employeeId);
+
+            var employeeDto = user.MapToEmployeeDto();
+
+            return employeeDto;
+        }
+
+ 
+
+        public async Task<IEnumerable<EmployeeDto>> GetUsers()
+        {
+            var users = await _userManager.Users
             .OrderBy(u => u.LastName)
-            .ToList();
+            .ToListAsync();
 
             var employeesDto = users.MapToEmployeesDto().ToList();
 
             return employeesDto;
         }
 
-        public async Task<SignInResult> Login(EmployeeForAuthenticationDto employeeForAuth)
+        public async Task<bool> Login(EmployeeForAuthenticationDto employeeForAuth)
         {
             var result = await _signInManager.PasswordSignInAsync(employeeForAuth.UserName, employeeForAuth.Password, isPersistent: false, lockoutOnFailure: false);
 
             if (!result.Succeeded)
             {
-                throw new BadRequestException("Something went wrong while signing in.");
+                throw new InvalidOperationException(ErrorMessages.InvalidLogin);
             }
 
-            return result;
+            return result.Succeeded;
         }
 
         public async Task Logout()
@@ -79,31 +94,34 @@ namespace BusinessLogicLayer.Services
             await _signInManager.SignOutAsync();
         }
 
-        public async Task<IdentityResult> RegisterUser(EmployeeForRegistrationDto employeeForRegistration)
+        public async Task<bool> RegisterUser(EmployeeForRegistrationDto employeeForRegistration)
         {
             var employee = employeeForRegistration.MapToEmployeeRegistration();
             var result = await _userManager.CreateAsync(employee,
                 employeeForRegistration.Password);
 
-            if (result.Succeeded)
-            {
-                await _userManager.AddToRoleAsync(employee, employeeForRegistration.Role);
-            }
+            Guard.ThrowIfFailedIdentity(result);
 
-            return result;
+            var addToRoleresult = await _userManager.AddToRoleAsync(employee, employeeForRegistration.Role);
+
+            Guard.ThrowIfFailedIdentity(addToRoleresult);
+            
+            return result.Succeeded;
         }
 
-        public async Task<IdentityResult> UpdateUser(int employeeId, EmployeeForUpdateDto employeeForUpdate)
+        public async Task<bool> UpdateUser(int employeeId, EmployeeForUpdateDto employeeForUpdate)
         {
             var user = await _userManager.FindByIdAsync(employeeId.ToString());
-            if (user == null)
-            {
-                throw new Exception(employeeId.ToString());
-            }
-            var updatedEmployee = user.MapToEmployeeUpdate(employeeForUpdate);
-            updatedEmployee.UpdateDate = DateTime.UtcNow;
-            var result = await _userManager.UpdateAsync(updatedEmployee);
-            return result;
+
+            Guard.ThrowIfNotFound(user, employeeId);
+
+            user.MapToEmployeeUpdate(employeeForUpdate);
+
+            var result = await _userManager.UpdateAsync(user);
+
+            Guard.ThrowIfFailedIdentity(result);
+
+            return result.Succeeded;
         }
     }
 
