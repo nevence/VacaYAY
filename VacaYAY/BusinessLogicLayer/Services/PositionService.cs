@@ -33,7 +33,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task DeletePositionAsync(int id)
         {
-            var positionEntity = await _repository.Position.FindAll(true).SingleOrDefaultAsync(v => v.Id.Equals(id));
+            var positionEntity = await _repository.Position.FindByCondition(v => v.Id.Equals(id), true).SingleOrDefaultAsync();
             Guard.ThrowIfNotFound(positionEntity, id);
 
             _repository.Position.Delete(positionEntity);
@@ -42,7 +42,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task<PositionDto> GetPositionAsync(int id)
         {
-            var positionEntity = await _repository.Position.FindAll(false).SingleOrDefaultAsync(v => v.Id.Equals(id));
+            var positionEntity = await _repository.Position.FindByCondition(v => v.Id.Equals(id), false).SingleOrDefaultAsync();
             Guard.ThrowIfNotFound(positionEntity, id);
 
             var positionDto = positionEntity.MapToPositionDto();
@@ -59,7 +59,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task UpdatePositionAsync(int id, PositionForUpdateDto positionForUpdate)
         {
-            var positionEntity = await _repository.Position.FindAll(true).SingleOrDefaultAsync(v => v.Id.Equals(id));
+            var positionEntity = await _repository.Position.FindByCondition(v => v.Id.Equals(id), true).SingleOrDefaultAsync();
             Guard.ThrowIfNotFound(positionEntity, id);
 
             positionEntity.MapToPositionUpdate(positionForUpdate);

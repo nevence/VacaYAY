@@ -12,7 +12,8 @@ namespace BusinessLogicLayer.Contracts
     public interface IVacationRequestService
     {
         Task<VacationRequestDto> GetVacationRequestAsync(int id);
-        Task<IEnumerable<VacationRequestDto>> GetVacationRequestsAsync(int employeeId);
+        Task<IEnumerable<VacationRequestDto>> GetVacationRequestsForEmployeeAsync(int employeeId);
+        Task<IEnumerable<VacationRequestDto>> GetVacationRequestsAsync();
         Task<int> CreateVacationRequestAsync(VacationRequestForCreationDto vacationRequestForCreation);
         Task UpdateVacationRequestAsync(int id, VacationRequestForUpdateDto vacationRequestForUpdate);
         Task DeleteVacationRequestAsync(int id);

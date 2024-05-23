@@ -35,7 +35,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task DeleteVacationRequestAsync(int id)
         {
-            var vacationRequestEntity = await _repository.VacationRequest.FindAll(true).SingleOrDefaultAsync(v => v.Id.Equals(id));
+            var vacationRequestEntity = await _repository.VacationRequest.FindByCondition(v => v.Id.Equals(id), true).SingleOrDefaultAsync();
             Guard.ThrowIfNotFound(vacationRequestEntity, id);
 
             _repository.VacationRequest.Delete(vacationRequestEntity);
@@ -44,26 +44,32 @@ namespace BusinessLogicLayer.Services
 
         public async Task<VacationRequestDto> GetVacationRequestAsync(int id)
         {
-            var vacationRequestEntity = await _repository.VacationRequest.FindAll(false).SingleOrDefaultAsync(v => v.Id.Equals(id));
+            var vacationRequestEntity = await _repository.VacationRequest.FindByCondition(v => v.Id.Equals(id), false).SingleOrDefaultAsync();
             Guard.ThrowIfNotFound(vacationRequestEntity, id);
 
             var vacationRequestDto = vacationRequestEntity.MapToVacationRequestDto();
             return vacationRequestDto;
-
         }
 
-        public async Task<IEnumerable<VacationRequestDto>> GetVacationRequestsAsync(int employeeId)
+        public async Task<IEnumerable<VacationRequestDto>> GetVacationRequestsAsync()
+        {
+            var vacationRequestsEntity = await _repository.VacationRequest.FindAll(false).ToListAsync();
+
+            var vacationRequestsDto = vacationRequestsEntity.MapToVacationRequestsDto();
+            return vacationRequestsDto;
+        }
+
+        public async Task<IEnumerable<VacationRequestDto>> GetVacationRequestsForEmployeeAsync(int employeeId)
         {
             var vacationRequestsEntity = await _repository.VacationRequest.FindByCondition(v => v.EmployeeId.Equals(employeeId), false).ToListAsync();
 
             var vacationRequestsDto = vacationRequestsEntity.MapToVacationRequestsDto();
             return vacationRequestsDto;
-
         }
 
         public async Task UpdateVacationRequestAsync(int id, VacationRequestForUpdateDto vacationRequestForUpdate)
         {
-            var vacationRequestEntity = await _repository.VacationRequest.FindAll(true).SingleOrDefaultAsync(v => v.Id.Equals(id));
+            var vacationRequestEntity = await _repository.VacationRequest.FindByCondition(v => v.Id.Equals(id), true).SingleOrDefaultAsync();
             Guard.ThrowIfNotFound(vacationRequestEntity, id);
 
             vacationRequestEntity.MapToVacationRequestUpdate(vacationRequestForUpdate);

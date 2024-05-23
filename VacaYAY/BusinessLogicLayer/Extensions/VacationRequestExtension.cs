@@ -16,7 +16,7 @@ namespace BusinessLogicLayer.Extensions
             return new VacationRequestDto
             {
                 EmployeeId = vacationRequest.EmployeeId,
-                FullName = $"{vacationRequest.Employee.FirstName} {vacationRequest.Employee.LastName}".Trim(),
+                FullName = $"{vacationRequest.Employee.FirstName} {vacationRequest.Employee.LastName}",
                 StartDate = vacationRequest.StartDate,
                 EndDate = vacationRequest.EndDate,
                 Status = vacationRequest.Status,
