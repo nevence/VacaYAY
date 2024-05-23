@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLayer.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,13 +10,13 @@ namespace BusinessLogicLayer.Dto.VacationRequestDto
 {
     public record VacationRequestForCreationDto : VacationRequesForManipulationtDto
     {
-        [Required(ErrorMessage = "This field is required.")]
+        [Required(ErrorMessage = ErrorMessages.RequiredField)]
         public int EmployeeId { get; set; }
 
-        [Required(ErrorMessage = "This field is required.")]
+        [Required(ErrorMessage = ErrorMessages.RequiredField)]
         public DateTime StartDate { get; set; }
 
-        [Required(ErrorMessage = "This field is required.")]
+        [Required(ErrorMessage = ErrorMessages.RequiredField)]
         public DateTime EndDate { get; set; }
         public DateTime RequestDate { get; init; } = DateTime.UtcNow;
     }

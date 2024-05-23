@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLayer.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace BusinessLogicLayer.Dto.EmployeeDto
 {
     public record EmployeeForAuthenticationDto
     {
-        [Required(ErrorMessage = "This field is required.")]
+        [Required(ErrorMessage = ErrorMessages.RequiredField)]
         public string UserName { get; init; }
 
-        [Required(ErrorMessage = "This field is required.")]
+        [Required(ErrorMessage = ErrorMessages.RequiredField)]
         public string Password { get; init; }
     }
 

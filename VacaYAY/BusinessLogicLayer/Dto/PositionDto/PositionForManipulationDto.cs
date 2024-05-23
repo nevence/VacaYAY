@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLayer.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,12 +11,12 @@ namespace BusinessLogicLayer.Dto.PositionDto
 {
     public record PositionForManipulationDto
     {
-        [Required(ErrorMessage = "This field is required.")]
-        [MaxLength(50, ErrorMessage = "Maximal length of the property is 50.")]
+        [Required(ErrorMessage = ErrorMessages.RequiredField)]
+        [MaxLength(50, ErrorMessage = ErrorMessages.MaxLength50)]
         public PositionCaption Caption { get; set; }
 
 
-        [Required(ErrorMessage = "This field is required.")]
+        [Required(ErrorMessage = ErrorMessages.RequiredField)]
         public string Description { get; set; }
     }
 }

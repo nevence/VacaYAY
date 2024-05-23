@@ -10,6 +10,8 @@ namespace BusinessLogicLayer.Exceptions
     {
         public const string EntityNotFound = "Entity with ID {0} was not found.";
         public const string InvalidLogin = "Invalid login attempt.";
+        public const string RequiredField = "This field is required.";
+        public const string MaxLength50 = "Maximal length of the property is 50.";
     }
 
 }

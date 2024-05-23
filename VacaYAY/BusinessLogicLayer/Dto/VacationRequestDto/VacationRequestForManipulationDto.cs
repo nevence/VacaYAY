@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLayer.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace BusinessLogicLayer.Dto.VacationRequestDto
     {
         public VacationRequestStatus Status { get; set; } = VacationRequestStatus.Pending;
 
-        [Required(ErrorMessage = "This field is required.")]
+        [Required(ErrorMessage = ErrorMessages.RequiredField)]
         public VacationRequestLeaveType LeaveType { get; set; }
 
         public string? HRComment { get; set; }
