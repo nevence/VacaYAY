@@ -9,5 +9,7 @@ namespace BusinessLogicLayer.Contracts
     public interface IServiceManager
     {
         IAuthService AuthService { get; }
+        IPositionService PositionService { get; }   
+        IVacationRequestService VacationRequestService { get; }
     }
 }

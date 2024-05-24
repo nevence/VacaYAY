@@ -14,7 +14,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BusinessLogicLayer.Services
 {
-    public class AuthService : IAuthService
+    public sealed class AuthService : IAuthService
     {
         private readonly UserManager<Employee> _userManager;
         private readonly SignInManager<Employee> _signInManager;

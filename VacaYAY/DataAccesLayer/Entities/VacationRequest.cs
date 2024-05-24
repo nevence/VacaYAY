@@ -3,23 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DataAccesLayer.Entities.Enums;
 
 namespace DataAccesLayer.Entities
 {
-    public enum VacationRequestStatus
-    {
-        Pending,
-        Accepted,
-        Rejected
-    }
-
-    public enum VacationRequestLeaveType
-    {
-        SickLeave,
-        MaternityLeave,
-        CasualLeave,
-        AnnualLeave
-    }
     public class VacationRequest : BaseEntity
     {
         public int EmployeeId { get; set; }

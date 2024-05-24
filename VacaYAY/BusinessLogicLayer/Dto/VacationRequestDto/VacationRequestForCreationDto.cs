@@ -6,23 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogicLayer.Dto.EmployeeDto
+namespace BusinessLogicLayer.Dto.VacationRequestDto
 {
-    public record EmployeeForRegistrationDto : EmployeeForManipulationDto
+    public record VacationRequestForCreationDto : VacationRequesForManipulationtDto
     {
         [Required(ErrorMessage = ErrorMessages.RequiredField)]
-        public string UserName { get; init; }
+        public int EmployeeId { get; set; }
 
         [Required(ErrorMessage = ErrorMessages.RequiredField)]
-        public string Password { get; init; }
+        public DateTime StartDate { get; set; }
 
         [Required(ErrorMessage = ErrorMessages.RequiredField)]
-        public string Role { get; init; }
-
-        [Required(ErrorMessage = ErrorMessages.RequiredField)]
-        public DateTime EmploymentStartDate { get; init; } = DateTime.Now;
-
-     
+        public DateTime EndDate { get; set; }
+        public DateTime RequestDate { get; init; } = DateTime.UtcNow;
     }
-
 }
