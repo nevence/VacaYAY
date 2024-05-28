@@ -44,7 +44,19 @@ namespace DataAccesLayer.Repositories
                   ApplicationDbContext.Set<T>()
                   .Where(expression);
 
-            public void Update(T entity)
+        public async Task<(IEnumerable<T> entities, int count)> GetAllAsync(int pageNumber, int pageSize)
+        {
+            var _entities = await FindAll(false)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+               
+            var _count = await FindAll(false).CountAsync();
+
+            return(_entities,  _count); 
+        }
+
+        public void Update(T entity)
             {
                 ApplicationDbContext.Set<T>().Update(entity);
             }

@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Dto.EmployeeDto;
 using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Extensions;
+using BusinessLogicLayer.ViewModel;
 using DataAccesLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -66,15 +67,16 @@ namespace BusinessLogicLayer.Services
 
  
 
-        public async Task<IEnumerable<EmployeeDto>> GetUsers()
+        public async Task<DtoViewModel<EmployeeDto>> GetUsers(RequestParameters requestParameters)
         {
-            var users = await _userManager.Users
-            .OrderBy(u => u.LastName)
-            .ToListAsync();
+            var result = await GetUsersAsync(requestParameters);
 
-            var employeesDto = users.MapToEmployeesDto().ToList();
+            var employeesDto = result.entities.MapToEmployeesDto();
 
-            return employeesDto;
+            var employeesViewModel = new DtoViewModel<EmployeeDto>(employeesDto, result.count, 
+                requestParameters.PageNumber, requestParameters.PageSize);
+
+            return employeesViewModel;
         }
 
         public async Task<bool> Login(EmployeeForAuthenticationDto employeeForAuth)
@@ -122,6 +124,18 @@ namespace BusinessLogicLayer.Services
             Guard.ThrowIfFailedIdentity(result);
 
             return result.Succeeded;
+        }
+
+        private async Task<(IEnumerable<Employee> entities, int count)> GetUsersAsync(RequestParameters requestParameters)
+        {
+            var _users = _userManager.Users
+                .OrderBy(u => u.FirstName)
+                .Skip((requestParameters.PageNumber - 1) * requestParameters.PageSize)
+                .Take(requestParameters.PageSize)
+                .ToList();
+
+            var _count = _userManager.Users.Count();
+            return (_users, _count); 
         }
     }
 

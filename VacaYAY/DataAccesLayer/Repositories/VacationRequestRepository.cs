@@ -17,5 +17,17 @@ namespace DataAccesLayer.Repositories
         {
             _context = context;
         }
+
+        public async Task<(IEnumerable<VacationRequest> entities, int count)> GetAllByConditionAsync(int pageNumber, int pageSize, int employeeId)
+        {
+            var _entities = await FindByCondition(v => v.EmployeeId.Equals(employeeId), false)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var _count = await FindByCondition(v => v.EmployeeId.Equals(employeeId), false).CountAsync();
+
+            return (_entities, _count);
+        }
     }
 }

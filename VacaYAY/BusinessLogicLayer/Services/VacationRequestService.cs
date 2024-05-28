@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Dto.VacationRequestDto;
 using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Extensions;
+using BusinessLogicLayer.ViewModel;
 using DataAccesLayer.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -51,20 +52,24 @@ namespace BusinessLogicLayer.Services
             return vacationRequestDto;
         }
 
-        public async Task<IEnumerable<VacationRequestDto>> GetVacationRequestsAsync()
+        public async Task<DtoViewModel<VacationRequestDto>> GetVacationRequestsAsync(RequestParameters requestParameters)
         {
-            var vacationRequestsEntity = await _repository.VacationRequest.FindAll(false).ToListAsync();
+            var result = await _repository.VacationRequest.GetAllAsync(requestParameters.PageNumber, requestParameters.PageSize);    
 
-            var vacationRequestsDto = vacationRequestsEntity.MapToVacationRequestsDto();
-            return vacationRequestsDto;
+            var vacationRequestsDto = result.entities.MapToVacationRequestsDto();
+            var vacationRequestsViewModel = new DtoViewModel<VacationRequestDto>(vacationRequestsDto, result.count, requestParameters.PageNumber, requestParameters.PageSize);
+
+            return vacationRequestsViewModel;
         }
 
-        public async Task<IEnumerable<VacationRequestDto>> GetVacationRequestsForEmployeeAsync(int employeeId)
+        public async Task<DtoViewModel<VacationRequestDto>> GetVacationRequestsForEmployeeAsync(RequestParameters requestParameters, int employeeId)
         {
-            var vacationRequestsEntity = await _repository.VacationRequest.FindByCondition(v => v.EmployeeId.Equals(employeeId), false).ToListAsync();
+            var result = await _repository.VacationRequest.GetAllByConditionAsync(requestParameters.PageNumber, requestParameters.PageSize, employeeId);
 
-            var vacationRequestsDto = vacationRequestsEntity.MapToVacationRequestsDto();
-            return vacationRequestsDto;
+            var vacationRequestsDto = result.entities.MapToVacationRequestsDto();
+            var vacationRequestsViewModel = new DtoViewModel<VacationRequestDto>(vacationRequestsDto, result.count, requestParameters.PageNumber, requestParameters.PageSize);
+
+            return vacationRequestsViewModel;
         }
 
         public async Task UpdateVacationRequestAsync(int id, VacationRequestForUpdateDto vacationRequestForUpdate)
