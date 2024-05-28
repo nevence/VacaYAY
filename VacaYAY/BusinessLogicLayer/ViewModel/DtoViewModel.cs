@@ -9,11 +9,11 @@ namespace BusinessLogicLayer.ViewModel
 {
     public class DtoViewModel<T>
     {
-        IEnumerable<T> Entities { get; set;}
+        List<T> Items { get; set;}
         MetaData MetaData { get; set;}
         public DtoViewModel(IEnumerable<T> dtos, int count, int pageNumber, int pageSize)
         {
-            Entities = dtos;
+            Items.AddRange(dtos);
             MetaData = new MetaData
             {
                 TotalCount = count,
