@@ -11,7 +11,7 @@ namespace BusinessLogicLayer.Contracts
     public interface IPositionService
     {
         Task<PositionDto> GetPositionAsync(int id);
-        Task<DtoViewModel<PositionDto>> GetPositionsAsync(RequestParameters requestParameters);
+        Task<PaginatedResponse<PositionDto>> GetPositionsAsync(RequestParameters requestParameters);
         Task<int> CreatePositionAsync(PositionForCreationDto positionForUpdate);
         Task UpdatePositionAsync(int id, PositionForUpdateDto positionForUpdate);
         Task DeletePositionAsync(int id);

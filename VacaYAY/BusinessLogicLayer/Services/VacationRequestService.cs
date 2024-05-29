@@ -52,22 +52,22 @@ namespace BusinessLogicLayer.Services
             return vacationRequestDto;
         }
 
-        public async Task<DtoViewModel<VacationRequestDto>> GetVacationRequestsAsync(RequestParameters requestParameters)
+        public async Task<PaginatedResponse<VacationRequestDto>> GetVacationRequestsAsync(RequestParameters requestParameters)
         {
-            var result = await _repository.VacationRequest.GetAllAsync(requestParameters.PageNumber, requestParameters.PageSize);    
+            var result = await _repository.VacationRequest.GetAllVacationRequestsAsync(requestParameters.PageNumber, requestParameters.PageSize, requestParameters.SearchTerm);    
 
             var vacationRequestsDto = result.entities.MapToVacationRequestsDto();
-            var vacationRequestsViewModel = new DtoViewModel<VacationRequestDto>(vacationRequestsDto, result.count, requestParameters.PageNumber, requestParameters.PageSize);
+            var vacationRequestsViewModel = new PaginatedResponse<VacationRequestDto>(vacationRequestsDto, result.count, requestParameters);
 
             return vacationRequestsViewModel;
         }
 
-        public async Task<DtoViewModel<VacationRequestDto>> GetVacationRequestsForEmployeeAsync(RequestParameters requestParameters, int employeeId)
+        public async Task<PaginatedResponse<VacationRequestDto>> GetVacationRequestsForEmployeeAsync(RequestParameters requestParameters, int employeeId)
         {
-            var result = await _repository.VacationRequest.GetAllByConditionAsync(requestParameters.PageNumber, requestParameters.PageSize, employeeId);
+            var result = await _repository.VacationRequest.GetAllVacationRequestsForEmployeeAsync(requestParameters.PageNumber, requestParameters.PageSize, employeeId, requestParameters.SearchTerm);
 
             var vacationRequestsDto = result.entities.MapToVacationRequestsDto();
-            var vacationRequestsViewModel = new DtoViewModel<VacationRequestDto>(vacationRequestsDto, result.count, requestParameters.PageNumber, requestParameters.PageSize);
+            var vacationRequestsViewModel = new PaginatedResponse<VacationRequestDto>(vacationRequestsDto, result.count, requestParameters);
 
             return vacationRequestsViewModel;
         }

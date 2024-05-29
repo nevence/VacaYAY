@@ -16,7 +16,7 @@ namespace BusinessLogicLayer.Contracts
         Task<bool> DeleteUser(int employeeId);
         Task<bool> ChangePassword(int employeeId, ChangePasswordDto changePassword);
         Task<bool> UpdateUser(int employeeId, EmployeeForUpdateDto employeeForUpdate);
-        Task<DtoViewModel<EmployeeDto>> GetUsers(RequestParameters requestParameters);
+        Task<PaginatedResponse<EmployeeDto>> GetUsers(RequestParameters requestParameters);
         Task<EmployeeDto> GetUser(int employeeId);
         Task Logout();
     }

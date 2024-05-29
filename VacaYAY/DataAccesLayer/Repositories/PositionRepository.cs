@@ -18,5 +18,24 @@ namespace DataAccesLayer.Repositories
         {
             _context = context;
         }
+
+        public async Task<(IEnumerable<Position> entities, int count)> GetAllPoitionsAsync(int pageNumber, int pageSize, string searchTerm)
+        {
+            var query = FindAll(false);
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(v => v.Caption.ToString().Contains(searchTerm) || v.Description.Contains(searchTerm));
+            }
+
+            var entities = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var count = await query.CountAsync();
+
+            return (entities, count);
+        }
     }
 }

@@ -67,14 +67,13 @@ namespace BusinessLogicLayer.Services
 
  
 
-        public async Task<DtoViewModel<EmployeeDto>> GetUsers(RequestParameters requestParameters)
+        public async Task<PaginatedResponse<EmployeeDto>> GetUsers(RequestParameters requestParameters)
         {
             var result = await GetUsersAsync(requestParameters);
 
             var employeesDto = result.entities.MapToEmployeesDto();
 
-            var employeesViewModel = new DtoViewModel<EmployeeDto>(employeesDto, result.count, 
-                requestParameters.PageNumber, requestParameters.PageSize);
+            var employeesViewModel = new PaginatedResponse<EmployeeDto>(employeesDto, result.count, requestParameters);
 
             return employeesViewModel;
         }
@@ -128,13 +127,19 @@ namespace BusinessLogicLayer.Services
 
         private async Task<(IEnumerable<Employee> entities, int count)> GetUsersAsync(RequestParameters requestParameters)
         {
-            var _users = _userManager.Users
-                .OrderBy(u => u.FirstName)
+            var query = _userManager.Users;
+
+            if (!string.IsNullOrEmpty(requestParameters.SearchTerm))
+            {
+                query = query.Where(v => v.FirstName.Contains(requestParameters.SearchTerm) || v.LastName.Contains(requestParameters.SearchTerm));
+            }
+
+            var _users = await query
                 .Skip((requestParameters.PageNumber - 1) * requestParameters.PageSize)
                 .Take(requestParameters.PageSize)
-                .ToList();
+                .ToListAsync();
 
-            var _count = _userManager.Users.Count();
+            var _count = await query.CountAsync();
             return (_users, _count); 
         }
     }

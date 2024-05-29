@@ -51,12 +51,12 @@ namespace BusinessLogicLayer.Services
             return positionDto;
         }
 
-        public async Task<DtoViewModel<PositionDto>> GetPositionsAsync(RequestParameters requestParameters)
+        public async Task<PaginatedResponse<PositionDto>> GetPositionsAsync(RequestParameters requestParameters)
         {
-            var result = await _repository.Position.GetAllAsync(requestParameters.PageNumber, requestParameters.PageSize);
+            var result = await _repository.Position.GetAllPoitionsAsync(requestParameters.PageNumber, requestParameters.PageSize, requestParameters.SearchTerm);
 
             var positionsDto = result.entities.MapToPositionsDto();
-            var positionsViewModel = new DtoViewModel<PositionDto>(positionsDto, result.count, requestParameters.PageNumber, requestParameters.PageSize);
+            var positionsViewModel = new PaginatedResponse<PositionDto>(positionsDto, result.count, requestParameters);
 
             return positionsViewModel;
         }

@@ -18,16 +18,44 @@ namespace DataAccesLayer.Repositories
             _context = context;
         }
 
-        public async Task<(IEnumerable<VacationRequest> entities, int count)> GetAllByConditionAsync(int pageNumber, int pageSize, int employeeId)
+        public async Task<(IEnumerable<VacationRequest> entities, int count)> GetAllVacationRequestsAsync(int pageNumber, int pageSize, string searchTerm)
         {
-            var _entities = await FindByCondition(v => v.EmployeeId.Equals(employeeId), false)
+            var query = FindAll(false);
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(v => v.Employee.FirstName.Contains(searchTerm) || v.Employee.LastName.Contains(searchTerm)
+                || v.Status.ToString().Contains(searchTerm));
+            }
+
+            var entities = await query
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            var _count = await FindByCondition(v => v.EmployeeId.Equals(employeeId), false).CountAsync();
+            var count = await query.CountAsync();
 
-            return (_entities, _count);
+            return (entities, count);
+
+        }
+
+        public async Task<(IEnumerable<VacationRequest> entities, int count)> GetAllVacationRequestsForEmployeeAsync(int pageNumber, int pageSize, int employeeId, string searchTerm)
+        {
+            var query = FindByCondition(v => v.EmployeeId == employeeId, false);
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(v => v.Status.ToString().Contains(searchTerm));
+            }
+
+            var entities = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var count = await query.CountAsync();
+
+            return (entities, count);
         }
     }
 }
