@@ -18,5 +18,17 @@ namespace DataAccesLayer.Repositories
         {
             _context = context;
         }
+
+        public async Task<(IEnumerable<Position> entities, int count)> GetAllPoitionsAsync(int pageNumber, int pageSize, string searchTerm)
+        {
+            var query = FindAll(false);
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(v => v.Caption.ToString().Contains(searchTerm) || v.Description.Contains(searchTerm));
+            }
+
+            return await GetPaginatedAsync(query, pageNumber, pageSize);
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using BusinessLogicLayer.Contracts;
 using BusinessLogicLayer.Dto.PositionDto;
+using BusinessLogicLayer.Dto.VacationRequestDto;
 using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Extensions;
+using BusinessLogicLayer.ViewModel;
 using DataAccesLayer.Contracts;
 using DataAccesLayer.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -49,12 +51,14 @@ namespace BusinessLogicLayer.Services
             return positionDto;
         }
 
-        public async Task<IEnumerable<PositionDto>> GetPositionsAsync()
+        public async Task<PaginatedResponse<PositionDto>> GetPositionsAsync(RequestParameters requestParameters)
         {
-            var positionsEntity = await _repository.Position.FindAll(false).ToListAsync();
+            var result = await _repository.Position.GetAllPoitionsAsync(requestParameters.PageNumber, requestParameters.PageSize, requestParameters.SearchTerm);
 
-            var positionsDto = positionsEntity.MapToPositionsDto();
-            return positionsDto;
+            var positionsDto = result.entities.MapToPositionsDto();
+            var positionsViewModel = new PaginatedResponse<PositionDto>(positionsDto, result.count, requestParameters);
+
+            return positionsViewModel;
         }
 
         public async Task UpdatePositionAsync(int id, PositionForUpdateDto positionForUpdate)

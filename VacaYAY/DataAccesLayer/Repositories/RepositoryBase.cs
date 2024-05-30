@@ -44,7 +44,19 @@ namespace DataAccesLayer.Repositories
                   ApplicationDbContext.Set<T>()
                   .Where(expression);
 
-            public void Update(T entity)
+        public async Task<(IEnumerable<T> entities, int count)> GetPaginatedAsync(IQueryable<T> query, int pageNumber, int pageSize)
+        {
+            var count = await query.CountAsync();
+
+            var entities = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return(entities, count);
+        }
+
+        public void Update(T entity)
             {
                 ApplicationDbContext.Set<T>().Update(entity);
             }

@@ -9,5 +9,7 @@ namespace DataAccesLayer.Contracts
 {
     public interface IVacationRequestRepository : IRepositoryBase<VacationRequest>
     {
+        Task<(IEnumerable<VacationRequest> entities, int count)> GetAllVacationRequestsForEmployeeAsync(int pageNumber, int pageSize, int employeeId, string searchTerm);
+        Task<(IEnumerable<VacationRequest> entities, int count)> GetAllVacationRequestsAsync(int pageNumber, int pageSize, string searchTerm);
     }
 }

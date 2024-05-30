@@ -14,5 +14,6 @@ namespace DataAccesLayer.Contracts
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);
+        Task<(IEnumerable<T> entities, int count)> GetPaginatedAsync(IQueryable<T> query, int pageNumber, int pageSize);
     }
 }

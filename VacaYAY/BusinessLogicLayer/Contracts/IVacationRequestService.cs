@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer.Dto.PositionDto;
 using BusinessLogicLayer.Dto.VacationRequestDto;
+using BusinessLogicLayer.ViewModel;
 using DataAccesLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,8 @@ namespace BusinessLogicLayer.Contracts
     public interface IVacationRequestService
     {
         Task<VacationRequestDto> GetVacationRequestAsync(int id);
-        Task<IEnumerable<VacationRequestDto>> GetVacationRequestsForEmployeeAsync(int employeeId);
-        Task<IEnumerable<VacationRequestDto>> GetVacationRequestsAsync();
+        Task<PaginatedResponse<VacationRequestDto>> GetVacationRequestsForEmployeeAsync(RequestParameters requestParameters, int employeeId);
+        Task<PaginatedResponse<VacationRequestDto>> GetVacationRequestsAsync(RequestParameters requestParameters);
         Task<int> CreateVacationRequestAsync(VacationRequestForCreationDto vacationRequestForCreation);
         Task UpdateVacationRequestAsync(int id, VacationRequestForUpdateDto vacationRequestForUpdate);
         Task DeleteVacationRequestAsync(int id);

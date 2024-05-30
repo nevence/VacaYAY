@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Dto.PositionDto;
+using BusinessLogicLayer.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace BusinessLogicLayer.Contracts
     public interface IPositionService
     {
         Task<PositionDto> GetPositionAsync(int id);
-        Task<IEnumerable<PositionDto>> GetPositionsAsync();
+        Task<PaginatedResponse<PositionDto>> GetPositionsAsync(RequestParameters requestParameters);
         Task<int> CreatePositionAsync(PositionForCreationDto positionForUpdate);
         Task UpdatePositionAsync(int id, PositionForUpdateDto positionForUpdate);
         Task DeletePositionAsync(int id);

@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Dto.EmployeeDto;
 using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Extensions;
+using BusinessLogicLayer.ViewModel;
 using DataAccesLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -66,15 +67,15 @@ namespace BusinessLogicLayer.Services
 
  
 
-        public async Task<IEnumerable<EmployeeDto>> GetUsers()
+        public async Task<PaginatedResponse<EmployeeDto>> GetUsers(RequestParameters requestParameters)
         {
-            var users = await _userManager.Users
-            .OrderBy(u => u.LastName)
-            .ToListAsync();
+            var result = await GetUsersAsync(requestParameters);
 
-            var employeesDto = users.MapToEmployeesDto().ToList();
+            var employeesDto = result.entities.MapToEmployeesDto();
 
-            return employeesDto;
+            var employeesViewModel = new PaginatedResponse<EmployeeDto>(employeesDto, result.count, requestParameters);
+
+            return employeesViewModel;
         }
 
         public async Task<bool> Login(EmployeeForAuthenticationDto employeeForAuth)
@@ -122,6 +123,24 @@ namespace BusinessLogicLayer.Services
             Guard.ThrowIfFailedIdentity(result);
 
             return result.Succeeded;
+        }
+
+        private async Task<(IEnumerable<Employee> entities, int count)> GetUsersAsync(RequestParameters requestParameters)
+        {
+            var query = _userManager.Users;
+
+            if (!string.IsNullOrEmpty(requestParameters.SearchTerm))
+            {
+                query = query.Where(v => v.FirstName.Contains(requestParameters.SearchTerm) || v.LastName.Contains(requestParameters.SearchTerm));
+            }
+
+            var _users = await query
+                .Skip((requestParameters.PageNumber - 1) * requestParameters.PageSize)
+                .Take(requestParameters.PageSize)
+                .ToListAsync();
+
+            var _count = await query.CountAsync();
+            return (_users, _count); 
         }
     }
 

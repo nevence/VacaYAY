@@ -10,6 +10,6 @@ namespace DataAccesLayer.Contracts
 {
     public interface IPositionRepository : IRepositoryBase<Position>
     {
-
+        Task<(IEnumerable<Position> entities, int count)> GetAllPoitionsAsync(int pageNumber, int pageSize, string searchTerm);
     }
 }

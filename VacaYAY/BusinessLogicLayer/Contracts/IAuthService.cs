@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Dto.EmployeeDto;
+using BusinessLogicLayer.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace BusinessLogicLayer.Contracts
         Task<bool> DeleteUser(int employeeId);
         Task<bool> ChangePassword(int employeeId, ChangePasswordDto changePassword);
         Task<bool> UpdateUser(int employeeId, EmployeeForUpdateDto employeeForUpdate);
-        Task<IEnumerable<EmployeeDto>> GetUsers();
+        Task<PaginatedResponse<EmployeeDto>> GetUsers(RequestParameters requestParameters);
         Task<EmployeeDto> GetUser(int employeeId);
         Task Logout();
     }
