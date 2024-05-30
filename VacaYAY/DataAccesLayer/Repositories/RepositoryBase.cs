@@ -44,16 +44,16 @@ namespace DataAccesLayer.Repositories
                   ApplicationDbContext.Set<T>()
                   .Where(expression);
 
-        public async Task<(IEnumerable<T> entities, int count)> GetAllAsync(int pageNumber, int pageSize)
+        public async Task<(IEnumerable<T> entities, int count)> GetPaginatedAsync(IQueryable<T> query, int pageNumber, int pageSize)
         {
-            var _entities = await FindAll(false)
+            var count = await query.CountAsync();
+
+            var entities = await query
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
-               
-            var _count = await FindAll(false).CountAsync();
 
-            return(_entities,  _count); 
+            return(entities, count);
         }
 
         public void Update(T entity)

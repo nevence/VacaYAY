@@ -28,14 +28,7 @@ namespace DataAccesLayer.Repositories
                 query = query.Where(v => v.Caption.ToString().Contains(searchTerm) || v.Description.Contains(searchTerm));
             }
 
-            var entities = await query
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            var count = await query.CountAsync();
-
-            return (entities, count);
+            return await GetPaginatedAsync(query, pageNumber, pageSize);
         }
     }
 }

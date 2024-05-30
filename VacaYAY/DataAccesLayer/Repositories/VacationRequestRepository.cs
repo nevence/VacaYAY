@@ -28,14 +28,7 @@ namespace DataAccesLayer.Repositories
                 || v.Status.ToString().Contains(searchTerm));
             }
 
-            var entities = await query
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            var count = await query.CountAsync();
-
-            return (entities, count);
+            return await GetPaginatedAsync(query, pageNumber, pageSize);
 
         }
 
@@ -48,14 +41,7 @@ namespace DataAccesLayer.Repositories
                 query = query.Where(v => v.Status.ToString().Contains(searchTerm));
             }
 
-            var entities = await query
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            var count = await query.CountAsync();
-
-            return (entities, count);
+            return await GetPaginatedAsync(query, pageNumber, pageSize);
         }
     }
 }
