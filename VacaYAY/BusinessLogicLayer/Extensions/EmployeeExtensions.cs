@@ -1,5 +1,7 @@
 ﻿using BusinessLogicLayer.Dto.EmployeeDto;
+using BusinessLogicLayer.Dto.OldEmployeeDto;
 using DataAccesLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +35,24 @@ namespace BusinessLogicLayer.Extensions
             return employees.Select(employee => employee.MapToEmployeeDto());
         }
 
+
+        public static EmployeeForRegistrationDto MapToEmployeeForRegistration(this OldEmployee oldEmployee, int positionId)
+        {
+            return new EmployeeForRegistrationDto
+            {
+                FirstName = oldEmployee.FirstName,
+                LastName = oldEmployee.LastName,
+                Address = $"{oldEmployee.Location.Street}, {oldEmployee.Location.City}, {oldEmployee.Location.Country}",
+                IDNumber = oldEmployee.IDNumber,
+                DaysOffNumber = oldEmployee.DaysOffNumber,
+                PositionId = positionId,
+                EmploymentEndDate = oldEmployee.EmploymentEndDate,
+                UserName = oldEmployee.Login.UserName,
+                Password = oldEmployee.Login.Password,
+                Role = oldEmployee.Login.Role,
+                EmploymentStartDate = oldEmployee.EmploymentStartDate
+            };
+        }
         public static Employee MapToEmployeeRegistration(this EmployeeForRegistrationDto employeeForRegistration)
         {
             return new Employee

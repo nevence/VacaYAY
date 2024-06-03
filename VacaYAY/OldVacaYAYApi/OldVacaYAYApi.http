@@ -1,0 +1,6 @@
+@OldVacaYAYApi_HostAddress = http://localhost:5228
+
+GET {{OldVacaYAYApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

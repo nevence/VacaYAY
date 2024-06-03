@@ -17,6 +17,15 @@ namespace BusinessLogicLayer.Exceptions
             }
         }
 
+        public static void ThrowIfNotFoundString(object obj)
+        {
+            if (obj == null)
+            {
+                throw new KeyNotFoundException(string.Format(ErrorMessages.EntityNotFoundString));
+            }
+        }
+
+
         public static void ThrowIfFailedIdentity(IdentityResult result)
         {
             if (!result.Succeeded)

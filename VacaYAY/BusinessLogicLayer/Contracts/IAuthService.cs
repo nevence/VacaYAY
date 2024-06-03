@@ -18,6 +18,7 @@ namespace BusinessLogicLayer.Contracts
         Task<bool> UpdateUser(int employeeId, EmployeeForUpdateDto employeeForUpdate);
         Task<PaginatedResponse<EmployeeDto>> GetUsers(RequestParameters requestParameters);
         Task<EmployeeDto> GetUser(int employeeId);
+        Task<bool> MigrateEmployeesFromOldSystem();
         Task Logout();
     }
 }

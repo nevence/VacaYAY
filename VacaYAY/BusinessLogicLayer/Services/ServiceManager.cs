@@ -1,7 +1,9 @@
 ﻿using BusinessLogicLayer.Contracts;
+using DataAccesLayer.Configuration;
 using DataAccesLayer.Contracts;
 using DataAccesLayer.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +20,10 @@ namespace BusinessLogicLayer.Services
 
         public ServiceManager(IRepositoryManager repositoryManager,
                               UserManager<Employee> userManager,
-                              SignInManager<Employee> signInManager)
+                              SignInManager<Employee> signInManager, HttpClient httpClient,
+                              IOptions<ApiConfig> api)
         {
-            _authService = new AuthService(userManager, signInManager);
+            _authService = new AuthService(userManager, signInManager, httpClient, api, repositoryManager);
             _positionService = new PositionService(repositoryManager);
             _vacationRequestService = new VacationRequestService(repositoryManager);
         }
