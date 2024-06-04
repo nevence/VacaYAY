@@ -144,7 +144,7 @@ namespace BusinessLogicLayer.Services
 
             try
             {
-                var response = await _httpClient.GetAsync(_api.BaseUrl + "/Employees");
+                var response = await _httpClient.GetAsync(_api.BaseUrl + ApiRoutes.GetEmployees);
                 if (response.IsSuccessStatusCode)
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
