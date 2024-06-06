@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,6 @@ namespace DataAccesLayer.Contracts
         IVacationRequestRepository VacationRequest { get; }
         IPositionRepository Position { get; }
         Task SaveAsync();
+        Task<IDbContextTransaction> BeginTransactionAsync();
     }
 }

@@ -1,3 +1,4 @@
+using DataAccesLayer.Configuration;
 using DataAccesLayer.Data;
 using DataAccesLayer.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +12,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureIdentity(builder.Configuration);
 builder.Services.AddScoped<DataSeeder>();
+builder.Services.Configure<ApiConfig>(builder.Configuration.GetSection(ApiConfig.ApiConfiguration));
+builder.Services.AddHttpClient();
 builder.Services.ConfigureRepositoryManager();
+builder.Services.ConfigureServiceManager();
 
 var app = builder.Build();
 
@@ -46,8 +50,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

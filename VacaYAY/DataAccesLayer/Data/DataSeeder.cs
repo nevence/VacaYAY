@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static DataAccesLayer.Entities.Enums;
 
 namespace DataAccesLayer.Data
 {

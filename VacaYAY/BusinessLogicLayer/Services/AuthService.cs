@@ -1,11 +1,17 @@
 ﻿using BusinessLogicLayer.Contracts;
 using BusinessLogicLayer.Dto.EmployeeDto;
+using BusinessLogicLayer.Dto.OldEmployeeDto;
 using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Extensions;
 using BusinessLogicLayer.ViewModel;
+using DataAccesLayer.Configuration;
+using DataAccesLayer.Contracts;
 using DataAccesLayer.Entities;
+using DataAccesLayer.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +23,20 @@ namespace BusinessLogicLayer.Services
 {
     public sealed class AuthService : IAuthService
     {
+        private readonly IRepositoryManager _repository;
         private readonly UserManager<Employee> _userManager;
         private readonly SignInManager<Employee> _signInManager;
+        private readonly HttpClient _httpClient;
+        private readonly ApiConfig _api;
 
-        public AuthService(UserManager<Employee> userManager, SignInManager<Employee> signInManager)
+        public AuthService(UserManager<Employee> userManager, SignInManager<Employee> signInManager,
+            HttpClient httpClient, IOptions<ApiConfig> api, IRepositoryManager repository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _httpClient = httpClient;
+            _api = api.Value;
+            _repository = repository;
         }
         public async Task<bool> ChangePassword(int employeeId, ChangePasswordDto changePassword)
         {
@@ -125,8 +138,46 @@ namespace BusinessLogicLayer.Services
             return result.Succeeded;
         }
 
-        private async Task<(IEnumerable<Employee> entities, int count)> GetUsersAsync(RequestParameters requestParameters)
+        public async Task<bool> MigrateEmployeesFromOldSystem()
         {
+            using var transaction = await _repository.BeginTransactionAsync();
+
+            try
+            {
+                var response = await _httpClient.GetAsync(_api.BaseUrl + ApiRoutes.GetEmployees);
+                if (response.IsSuccessStatusCode)
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    var employees = JsonConvert.DeserializeObject<List<OldEmployee>>(apiResponse);
+
+                    foreach (var employee in employees)
+                    {
+                        var position = await _repository.Position
+                            .FindByCondition(p => p.Caption.ToString() == employee.Position.Name, false)
+                            .SingleOrDefaultAsync();
+                        Guard.ThrowIfNotFoundString(position);
+
+                        var positionId = position.Id;
+
+                        var employeeForRegistration = employee.MapToEmployeeForRegistration(positionId);
+                        await RegisterUser(employeeForRegistration);
+                    }
+
+                    await transaction.CommitAsync();
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw new InvalidOperationException(ErrorMessages.EmployeeMigrationError, ex);
+            }
+        }
+
+        private async Task<(IEnumerable<Employee> entities, int count)> GetUsersAsync(RequestParameters requestParameters)
+         {
             var query = _userManager.Users;
 
             if (!string.IsNullOrEmpty(requestParameters.SearchTerm))
@@ -141,7 +192,7 @@ namespace BusinessLogicLayer.Services
 
             var _count = await query.CountAsync();
             return (_users, _count); 
-        }
+         }
     }
 
 }
