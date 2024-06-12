@@ -1,0 +1,40 @@
+﻿@using BusinessLogicLayer.ViewModel
+@model AdminDashboardViewModel
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card bg-light-green mb-3 justify-content-center align-items-center">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="fa-solid fa-file-circle-check fa-3x text-dark-green"></i>
+                    </div>
+                    <h5 class="card-text text-center text-dark-green">@Model.TotalVacationRequests</h5>
+                    <h5 class="card-text text-dark-green">Leave requests</h5>
+                </div>
+        </div>
+    </div>
+        <div class="col-md-4">
+            <div class="card bg-info mb-3 justify-content-center align-items-center">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="fa-solid fa-user fa-3x text-dark-blue"></i>
+                    </div>
+                    <h5 class="card-title text-center text-dark-blue">@Model.TotalEmployees</h5>
+                    <h5 class="card-text text-dark-blue">Employees</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning mb-3 justify-content-center align-items-center">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="fa-solid fa-file-circle-question fa-3x text-dark-orange"></i>
+                    </div>
+                    <h5 class="card-title text-center text-dark-orange">@Model.PendingVacationRequests</h5>
+                    <h5 class="card-text text-dark-orange">Leave requests on wait</h5>
+                </div>
+            </div>
+        </div>
+</div>
+</div>

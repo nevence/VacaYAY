@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using static DataAccesLayer.Entities.Enums;
 
 namespace BusinessLogicLayer.Extensions
 {
@@ -49,7 +50,7 @@ namespace BusinessLogicLayer.Extensions
                 EmploymentEndDate = oldEmployee.EmploymentEndDate,
                 UserName = oldEmployee.Login.UserName,
                 Password = oldEmployee.Login.Password,
-                Role = oldEmployee.Login.Role,
+                Role = Enum.Parse<Roles>(oldEmployee.Login.Role),
                 EmploymentStartDate = oldEmployee.EmploymentStartDate
             };
         }
@@ -57,6 +58,7 @@ namespace BusinessLogicLayer.Extensions
         {
             return new Employee
             {
+                Email = employeeForRegistration.UserName,
                 UserName = employeeForRegistration.UserName,
                 FirstName = employeeForRegistration.FirstName,
                 LastName = employeeForRegistration.LastName,

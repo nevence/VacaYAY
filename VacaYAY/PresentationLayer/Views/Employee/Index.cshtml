@@ -1,0 +1,17 @@
+﻿@using DataAccesLayer.Entities
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h2>Hi, welcome back!</h2>
+
+@if (this.User.IsInRole(Enums.Roles.HR.ToString()))
+{
+    <div>
+        @await Component.InvokeAsync("AdminDashboard")
+    </div>
+}
+else
+{
+    <h3>You are an employee!</h3>
+}

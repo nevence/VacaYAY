@@ -116,7 +116,7 @@ namespace BusinessLogicLayer.Services
 
             Guard.ThrowIfFailedIdentity(result);
 
-            var addToRoleresult = await _userManager.AddToRoleAsync(employee, employeeForRegistration.Role);
+            var addToRoleresult = await _userManager.AddToRoleAsync(employee, employeeForRegistration.Role.ToString());
 
             Guard.ThrowIfFailedIdentity(addToRoleresult);
             
@@ -176,6 +176,20 @@ namespace BusinessLogicLayer.Services
             }
         }
 
+        public async Task<AdminDashboardViewModel> GetAdminDashboardDataAsync()
+        {
+            var totalEmployees = await GetTotalEmployeesCountAsync();
+            var totalVacationRequests =  await _repository.VacationRequest.FindAll(false).CountAsync();
+            var pendingVacationRequests = await _repository.VacationRequest.FindByCondition(vr => vr.Status.Equals(Enums.VacationRequestStatus.Pending), false).CountAsync();
+
+            return new AdminDashboardViewModel
+            {
+                TotalEmployees = totalEmployees,
+                TotalVacationRequests = totalVacationRequests,
+                PendingVacationRequests = pendingVacationRequests
+            };
+        }
+
         private async Task<(IEnumerable<Employee> entities, int count)> GetUsersAsync(RequestParameters requestParameters)
          {
             var query = _userManager.Users;
@@ -193,6 +207,11 @@ namespace BusinessLogicLayer.Services
             var _count = await query.CountAsync();
             return (_users, _count); 
          }
+
+        private async Task<int> GetTotalEmployeesCountAsync()
+        {
+            return await _userManager.Users.CountAsync();
+        }
     }
 
 }

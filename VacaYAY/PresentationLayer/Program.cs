@@ -3,12 +3,16 @@ using DataAccesLayer.Data;
 using DataAccesLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using PresentationLayer.ActionFilters;
 using PresentationLayer.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<ErrorExceptionFilter>();
+});
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureIdentity(builder.Configuration);
 builder.Services.AddScoped<DataSeeder>();
@@ -16,6 +20,7 @@ builder.Services.Configure<ApiConfig>(builder.Configuration.GetSection(ApiConfig
 builder.Services.AddHttpClient();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
+builder.Services.AddScoped<ValidationFilterAttribute>();
 
 var app = builder.Build();
 
