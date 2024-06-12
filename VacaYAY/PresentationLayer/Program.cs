@@ -20,7 +20,6 @@ builder.Services.Configure<ApiConfig>(builder.Configuration.GetSection(ApiConfig
 builder.Services.AddHttpClient();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
-builder.Services.AddScoped<ValidationFilterAttribute>();
 
 var app = builder.Build();
 

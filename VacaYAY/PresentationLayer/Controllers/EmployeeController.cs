@@ -30,7 +30,6 @@ namespace PresentationLayer.Controllers
         }
              
         [HttpPost]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Login(EmployeeForAuthenticationDto employeeForAuth)
         {
             var result = await _service.AuthService.Login(employeeForAuth);
@@ -49,7 +48,6 @@ namespace PresentationLayer.Controllers
         }
 
         [HttpPost]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Register(EmployeeForRegistrationDto employeeForRegistration)
         {
             var result = await _service.AuthService.RegisterUser(employeeForRegistration);
