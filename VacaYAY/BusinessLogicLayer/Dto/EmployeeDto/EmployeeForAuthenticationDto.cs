@@ -9,14 +9,13 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Dto.EmployeeDto
 {
-    public record EmployeeForAuthenticationDto
-    {
-        [Required(ErrorMessage = ErrorMessages.RequiredField)]
-        [DisplayName(DisplayNameEmployee.UserName)]
-        public string UserName { get; init; }
+    public record EmployeeForAuthenticationDto(
+     [Required(ErrorMessage = ErrorMessages.RequiredField)]
+    string Username,
 
-        [Required(ErrorMessage = ErrorMessages.RequiredField)]
-        public string Password { get; init; }
-    }
+     [Required(ErrorMessage = ErrorMessages.RequiredField)]
+    string Password
+ );
+
 
 }

@@ -93,7 +93,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task<bool> Login(EmployeeForAuthenticationDto employeeForAuth)
         {
-            var result = await _signInManager.PasswordSignInAsync(employeeForAuth.UserName, employeeForAuth.Password, isPersistent: false, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(employeeForAuth.Username, employeeForAuth.Password, isPersistent: false, lockoutOnFailure: false);
 
             if (!result.Succeeded)
             {
@@ -178,15 +178,11 @@ namespace BusinessLogicLayer.Services
 
         public async Task<AdminDashboardViewModel> GetAdminDashboardDataAsync()
         {
-            var totalEmployees = await GetTotalEmployeesCountAsync();
-            var totalVacationRequests =  await _repository.VacationRequest.FindAll(false).CountAsync();
-            var pendingVacationRequests = await _repository.VacationRequest.FindByCondition(vr => vr.Status.Equals(Enums.VacationRequestStatus.Pending), false).CountAsync();
-
             return new AdminDashboardViewModel
             {
-                TotalEmployees = totalEmployees,
-                TotalVacationRequests = totalVacationRequests,
-                PendingVacationRequests = pendingVacationRequests
+                TotalEmployees = await GetTotalEmployeesCountAsync(),
+                TotalVacationRequests = await _repository.VacationRequest.FindAll(false).CountAsync(),
+                PendingVacationRequests = await _repository.VacationRequest.FindByCondition(vr => vr.Status.Equals(Enums.VacationRequestStatus.Pending), false).CountAsync()
             };
         }
 
