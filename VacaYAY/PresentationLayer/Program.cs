@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add<ErrorExceptionFilter>();
+    options.Filters.Add<NotificationFilter>();
 });
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureIdentity(builder.Configuration);
@@ -59,6 +60,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Employee}/{action=Index}/{id?}");
 
 app.Run();

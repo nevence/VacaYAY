@@ -15,6 +15,7 @@ namespace BusinessLogicLayer.Extensions
         {
             return new VacationRequestDto
             {
+                Id = vacationRequest.Id,
                 EmployeeId = vacationRequest.EmployeeId,
                 FullName = $"{vacationRequest.Employee.FirstName} {vacationRequest.Employee.LastName}",
                 StartDate = vacationRequest.StartDate,
@@ -55,6 +56,19 @@ namespace BusinessLogicLayer.Extensions
             vacationRequest.EmployeeComment = vacationRequestForUpdate.EmployeeComment; 
             vacationRequest.UpdateDate = DateTime.UtcNow;
 
+        }
+
+        public static void MapVacationRequestReject(this VacationRequest vacationRequest)
+        {
+            vacationRequest.Status = Enums.VacationRequestStatus.Rejected;
+            vacationRequest.UpdateDate = DateTime.UtcNow;
+        }
+
+        public static void MapVacationRequestApprove(this VacationRequest vacationRequest)
+        {
+            vacationRequest.Status = Enums.VacationRequestStatus.Accepted;
+            vacationRequest.Employee.DaysOffNumber -= (vacationRequest.EndDate - vacationRequest.StartDate).Days;
+            vacationRequest.UpdateDate = DateTime.UtcNow;
         }
     }
    

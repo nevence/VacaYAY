@@ -14,6 +14,8 @@ namespace BusinessLogicLayer.Exceptions
         public const string MaxLength50 = "Maximal length of the property is 50.";
         public const string EntityNotFoundString = "Matching entity was not found.";
         public const string EmployeeMigrationError = "An error occurred while migrating employees from the old system.";
+        public const string InsufficentDaysOff = "Insufficient days off available.";
+        public const string Success = "Action completed successfully.";
     }
 
 }

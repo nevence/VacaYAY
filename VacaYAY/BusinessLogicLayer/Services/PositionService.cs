@@ -53,7 +53,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task<PaginatedResponse<PositionDto>> GetPositionsAsync(RequestParameters requestParameters)
         {
-            var result = await _repository.Position.GetAllPoitionsAsync(requestParameters.PageNumber, requestParameters.PageSize, requestParameters.SearchTerm);
+            var result = await _repository.Position.GetAllPoitionsAsync(requestParameters.PageNumber, requestParameters.PageSize, requestParameters.SearchTerm, requestParameters.Caption);
 
             var positionsDto = result.entities.MapToPositionsDto();
             var positionsViewModel = new PaginatedResponse<PositionDto>(positionsDto, result.count, requestParameters);

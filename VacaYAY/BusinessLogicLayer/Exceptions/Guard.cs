@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DataAccesLayer.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,31 @@ namespace BusinessLogicLayer.Exceptions
                 throw new InvalidOperationException(errors);
             }
         }
-    }
 
+        public static void ThrowIfInsufficentDaysOff(VacationRequest request)
+        {
+            var requestDays = GetWorkingDays(request.StartDate, request.EndDate);
+            if (requestDays > request.Employee.DaysOffNumber)
+            {
+                throw new ArgumentException(ErrorMessages.InsufficentDaysOff);
+            }
+        }
+
+        private static int GetWorkingDays(DateTime start, DateTime end)
+        {
+            int totalDays = 0;
+            DateTime current = start;
+
+            while (current <= end)
+            {
+                if (current.DayOfWeek != DayOfWeek.Saturday && current.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    totalDays++;
+                }
+                current = current.AddDays(1);
+            }
+
+            return totalDays;
+        }
+    }
 }

@@ -1,0 +1,12 @@
+﻿@using BusinessLogicLayer.ViewModel
+@using static DataAccesLayer.Entities.Enums
+@model PaginationParameters
+
+<form asp-action="@Model.ActionName" asp-controller="@Model.ControllerName" method="get" class="form-inline mb-3">
+    <input id="searchInput" type="text" name="searchTerm" class="form-control mr-2" placeholder="Search..." value="@Model.SearchTerm" onchange="this.form.submit()" />
+    <input type="hidden" name="pageNumber" value="1" />
+    <input type="hidden" name="pageSize" value="@Model.PageSize" />
+    <input type="hidden" name="leaveType" value="@Model.LeaveType" />
+    <input type="hidden" name="status" value="@Model.Status" />
+    <input type="hidden" name="caption" value="@Model.Caption" />
+</form>

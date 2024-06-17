@@ -1,0 +1,112 @@
+﻿@using BusinessLogicLayer.Dto.VacationRequestDto
+@using BusinessLogicLayer.ViewModel
+@using DataAccesLayer.Entities
+@model PaginatedResponse<VacationRequestDto>
+
+@{
+    var parameters = new PaginationParameters
+            {
+                CurrentPage = Model.CurrentPage,
+                TotalPages = Model.TotalPages,
+                PageSize = Model.PageSize,
+                TotalCount = Model.TotalCount,
+                HasPrevious = Model.HasPrevious,
+                HasNext = Model.HasNext,
+                SearchTerm = Model.SearchTerm,
+                LeaveType = Model.LeaveType,
+                Status = Model.Status,
+                Caption = Model.Caption,
+                ControllerName = "VacationRequest",
+                ActionName = "Index"
+            };
+}
+@if (User.IsInRole(Enums.Roles.HR.ToString()))
+{
+    <h1>Leave requests</h1>
+
+}
+else
+{
+    <h1>My leave requests</h1>
+}
+<hr class="mb-5" />
+
+<div class="row mb-1">
+    <div class="col-md-3">
+        <label for="leaveTypeSelect">Filter by leave type:</label>
+        @await Html.PartialAsync("_LeaveTypePartial", parameters)
+    </div>
+    <div class="col-md-3">
+        <label for="statusSelect">Filter by status:</label>
+        @await Html.PartialAsync("_StatusPartial", parameters)
+    </div>
+    <div class="col-md-3">
+        <label for="searchInput">Filter by search:</label>
+        @await Html.PartialAsync("_SearchPartial", parameters)
+    </div>
+    <div class="col-md-3">
+        <label for="pageSizeSelect">Show:</label>
+        @await Html.PartialAsync("_PageSizePartial", parameters)
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-md-12 text-right">
+        <a asp-action="Index" class="btn btn-secondary">Reset Filters</a>
+    </div>
+</div>
+
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            @if(User.IsInRole(Enums.Roles.HR.ToString()))
+            {
+                <th>Full name</th>
+            }
+            <th>Leave type</th>
+            <th>Request date</th>
+            <th>Start date</th>
+            <th>End date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var request in Model.Items)
+        {
+            <tr>
+                @if (User.IsInRole(Enums.Roles.HR.ToString()))
+                {
+                    <td>@request.FullName</td>
+                }
+                <td>@request.LeaveType</td>
+                <td>@request.RequestDate</td>
+                <td>@request.StartDate</td>
+                <td>@request.EndDate</td>
+                <td>@request.Status</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@request.Id" class="btn btn-sm btn-outline-info">
+                        <i class="fa-solid fa-eye"></i> Details
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@request.Id" class="btn btn-sm btn-outline-warning">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                    </a> 
+                   
+                    @if (request.Status == DataAccesLayer.Entities.Enums.VacationRequestStatus.Pending && User.IsInRole(Enums.Roles.HR.ToString()))
+                    {
+                        <a asp-action="Reject" asp-route-id="@request.Id" class="btn btn-sm btn-outline-danger">
+                            <i class="fa-solid fa-times"></i> Reject
+                        </a>
+
+                        <a asp-action = "Approve" asp-route-id = "@request.Id" class="btn btn-sm btn-outline-success">
+                            <i class="fa-solid fa-check"></i> Approve
+                        </a>
+                    }
+            </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+@await Html.PartialAsync("_PaginationPartial", parameters)

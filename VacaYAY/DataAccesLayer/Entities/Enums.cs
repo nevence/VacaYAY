@@ -14,13 +14,15 @@ namespace DataAccesLayer.Entities
             SalesExecutive,
             ProcurementOfficer,
             HRManager,
+            None
         }
 
         public enum VacationRequestStatus
         {
             Pending,
             Accepted,
-            Rejected
+            Rejected,
+            None
         }
 
         public enum VacationRequestLeaveType
@@ -28,13 +30,15 @@ namespace DataAccesLayer.Entities
             SickLeave,
             MaternityLeave,
             CasualLeave,
-            AnnualLeave
+            AnnualLeave,
+            None
         }
 
         public enum Roles
         {
             HR,
-            Employee
+            Employee,
+            None
         }
     }
 }

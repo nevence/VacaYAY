@@ -1,0 +1,30 @@
+﻿@using BusinessLogicLayer.ViewModel
+@using static DataAccesLayer.Entities.Enums
+@model PaginationParameters
+
+<form asp-action="@Model.ActionName" asp-controller="@Model.ControllerName" method="get" class="form-inline mb-3">
+    <select id="statusSelect" name="status" class="form-control mr-2" onchange="this.form.submit()">
+        <option value="">All</option>
+        @{
+            foreach (var s in Enum.GetValues(typeof(VacationRequestStatus)).Cast<VacationRequestStatus>())
+            {
+                if (s == VacationRequestStatus.None)
+                {
+                    continue;
+                }
+                if (s == Model.Status)
+                {
+                    <option value="@s" selected>@s</option>
+                }
+                else
+                {
+                    <option value="@s">@s</option>
+                }
+            }
+        }
+    </select>
+    <input type="hidden" name="searchTerm" value="@Model.SearchTerm" />
+    <input type="hidden" name="leaveType" value="@Model.LeaveType" />
+    <input type="hidden" name="pageNumber" value="1" />
+    <input type="hidden" name="pageSize" value="@Model.PageSize" />
+</form>
