@@ -30,5 +30,11 @@ namespace DataAccesLayer.Entities
             CasualLeave,
             AnnualLeave
         }
+
+        public enum Roles
+        {
+            HR,
+            Employee
+        }
     }
 }

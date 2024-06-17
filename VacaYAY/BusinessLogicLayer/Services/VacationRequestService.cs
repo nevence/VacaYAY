@@ -4,6 +4,7 @@ using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Extensions;
 using BusinessLogicLayer.ViewModel;
 using DataAccesLayer.Contracts;
+using DataAccesLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

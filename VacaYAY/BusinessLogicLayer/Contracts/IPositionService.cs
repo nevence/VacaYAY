@@ -15,5 +15,7 @@ namespace BusinessLogicLayer.Contracts
         Task<int> CreatePositionAsync(PositionForCreationDto positionForUpdate);
         Task UpdatePositionAsync(int id, PositionForUpdateDto positionForUpdate);
         Task DeletePositionAsync(int id);
+        Task<List<PositionDropdownViewModel>> GetPositionsForDropdownAsync();
+
     }
 }

@@ -61,6 +61,14 @@ namespace BusinessLogicLayer.Services
             return positionsViewModel;
         }
 
+        public async Task<List<PositionDropdownViewModel>> GetPositionsForDropdownAsync()
+        {
+            var result = await _repository.Position.FindAll(false).ToListAsync();
+            var positonsDropdown = result.MapToPositionsDropdown();
+
+            return positonsDropdown;
+        }
+
         public async Task UpdatePositionAsync(int id, PositionForUpdateDto positionForUpdate)
         {
             var positionEntity = await _repository.Position.FindByCondition(v => v.Id.Equals(id), true).SingleOrDefaultAsync();

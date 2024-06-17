@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer.Dto.EmployeeDto;
 using BusinessLogicLayer.Dto.PositionDto;
+using BusinessLogicLayer.ViewModel;
 using DataAccesLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,20 @@ namespace BusinessLogicLayer.Extensions
             position.Description = positionForUpdate.Description;
             position.UpdateDate = DateTime.UtcNow;
 
+        }
+
+        public static PositionDropdownViewModel MapToPositionDropdown(this Position position)
+        {
+            return new PositionDropdownViewModel
+            {
+                Caption = position.Caption,
+                Id = position.Id,
+            };
+        }
+
+        public static List<PositionDropdownViewModel> MapToPositionsDropdown(this IEnumerable<Position> positions)
+        {
+            return positions.Select(position => position.MapToPositionDropdown()).ToList();
         }
     }
 }

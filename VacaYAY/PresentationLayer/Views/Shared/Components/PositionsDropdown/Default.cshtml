@@ -1,0 +1,7 @@
+﻿@using BusinessLogicLayer.ViewModel
+@model List<PositionDropdownViewModel>
+
+@foreach (var position in Model)
+{
+    <option value="@position.Id">@position.Caption</option>
+}

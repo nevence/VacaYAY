@@ -93,7 +93,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task<bool> Login(EmployeeForAuthenticationDto employeeForAuth)
         {
-            var result = await _signInManager.PasswordSignInAsync(employeeForAuth.UserName, employeeForAuth.Password, isPersistent: false, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(employeeForAuth.Username, employeeForAuth.Password, isPersistent: false, lockoutOnFailure: false);
 
             if (!result.Succeeded)
             {
@@ -116,7 +116,7 @@ namespace BusinessLogicLayer.Services
 
             Guard.ThrowIfFailedIdentity(result);
 
-            var addToRoleresult = await _userManager.AddToRoleAsync(employee, employeeForRegistration.Role);
+            var addToRoleresult = await _userManager.AddToRoleAsync(employee, employeeForRegistration.Role.ToString());
 
             Guard.ThrowIfFailedIdentity(addToRoleresult);
             
@@ -176,6 +176,16 @@ namespace BusinessLogicLayer.Services
             }
         }
 
+        public async Task<AdminDashboardViewModel> GetAdminDashboardDataAsync()
+        {
+            return new AdminDashboardViewModel
+            {
+                TotalEmployees = await GetTotalEmployeesCountAsync(),
+                TotalVacationRequests = await _repository.VacationRequest.FindAll(false).CountAsync(),
+                PendingVacationRequests = await _repository.VacationRequest.FindByCondition(vr => vr.Status.Equals(Enums.VacationRequestStatus.Pending), false).CountAsync()
+            };
+        }
+
         private async Task<(IEnumerable<Employee> entities, int count)> GetUsersAsync(RequestParameters requestParameters)
          {
             var query = _userManager.Users;
@@ -193,6 +203,11 @@ namespace BusinessLogicLayer.Services
             var _count = await query.CountAsync();
             return (_users, _count); 
          }
+
+        private async Task<int> GetTotalEmployeesCountAsync()
+        {
+            return await _userManager.Users.CountAsync();
+        }
     }
 
 }

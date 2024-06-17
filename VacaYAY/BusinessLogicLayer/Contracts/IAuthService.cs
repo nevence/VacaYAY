@@ -19,6 +19,7 @@ namespace BusinessLogicLayer.Contracts
         Task<PaginatedResponse<EmployeeDto>> GetUsers(RequestParameters requestParameters);
         Task<EmployeeDto> GetUser(int employeeId);
         Task<bool> MigrateEmployeesFromOldSystem();
+        Task<AdminDashboardViewModel> GetAdminDashboardDataAsync();
         Task Logout();
     }
 }
