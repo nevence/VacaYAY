@@ -13,11 +13,6 @@ namespace BusinessLogicLayer.Dto.VacationRequestDto
         [Required(ErrorMessage = ErrorMessages.RequiredField)]
         public int EmployeeId { get; set; }
 
-        [Required(ErrorMessage = ErrorMessages.RequiredField)]
-        public DateTime StartDate { get; set; }
-
-        [Required(ErrorMessage = ErrorMessages.RequiredField)]
-        public DateTime EndDate { get; set; }
         public DateTime RequestDate { get; init; } = DateTime.UtcNow;
     }
 }

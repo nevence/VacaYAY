@@ -54,9 +54,10 @@ namespace BusinessLogicLayer.Extensions
             vacationRequest.Status = vacationRequestForUpdate.Status;
             vacationRequest.LeaveType = vacationRequestForUpdate.LeaveType;
             vacationRequest.HRComment = vacationRequestForUpdate.HRComment;
-            vacationRequest.EmployeeComment = vacationRequestForUpdate.EmployeeComment; 
+            vacationRequest.EmployeeComment = vacationRequestForUpdate.EmployeeComment;
+            vacationRequest.StartDate = vacationRequestForUpdate.StartDate;
+            vacationRequest.EndDate = vacationRequestForUpdate.EndDate;
             vacationRequest.UpdateDate = DateTime.UtcNow;
-
         }
 
         public static void MapVacationRequestReject(this VacationRequest vacationRequest)
