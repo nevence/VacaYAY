@@ -16,6 +16,7 @@ namespace BusinessLogicLayer.Exceptions
         public const string EmployeeMigrationError = "An error occurred while migrating employees from the old system.";
         public const string InsufficentDaysOff = "Insufficient days off available.";
         public const string Success = "Action completed successfully.";
+        public const string InvalidLeaveDate = "Leave start date must come before leave end date.";
     }
 
 }

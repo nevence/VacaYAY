@@ -45,6 +45,14 @@ namespace BusinessLogicLayer.Exceptions
             }
         }
 
+        public static void ThrowIfInvalidLeaveDate(VacationRequest request)
+        {
+            if (request.StartDate >  request.EndDate)
+            {
+                throw new ArgumentException(ErrorMessages.InvalidLeaveDate);
+            }
+        }
+
         public static int GetWorkingDays(DateTime start, DateTime end)
         {
             int totalDays = 0;

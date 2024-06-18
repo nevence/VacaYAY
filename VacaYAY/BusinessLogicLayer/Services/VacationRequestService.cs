@@ -26,10 +26,11 @@ namespace BusinessLogicLayer.Services
 
         public async Task<int> CreateVacationRequestAsync(VacationRequestForCreationDto vacationRequestForCreation)
         {
-
-
             var vacationRequestEntity = vacationRequestForCreation.MapToVacationRequestCreation();
+            Guard.ThrowIfInvalidLeaveDate(vacationRequestEntity);
+
             _repository.VacationRequest.Create(vacationRequestEntity);
+
             await _repository.SaveAsync();
             
             return vacationRequestEntity.Id;
@@ -77,6 +78,7 @@ namespace BusinessLogicLayer.Services
         {
             var vacationRequestEntity = await _repository.VacationRequest.FindByCondition(v => v.Id.Equals(id), true).Include(v => v.Employee).SingleOrDefaultAsync();
             Guard.ThrowIfNotFound(vacationRequestEntity, id);
+            Guard.ThrowIfInvalidLeaveDate(vacationRequestEntity);
 
             vacationRequestEntity.MapToVacationRequestUpdate(vacationRequestForUpdate);
 
