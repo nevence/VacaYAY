@@ -45,7 +45,7 @@ namespace BusinessLogicLayer.Exceptions
             }
         }
 
-        private static int GetWorkingDays(DateTime start, DateTime end)
+        public static int GetWorkingDays(DateTime start, DateTime end)
         {
             int totalDays = 0;
             DateTime current = start;

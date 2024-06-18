@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer.Dto.PositionDto;
 using BusinessLogicLayer.Dto.VacationRequestDto;
+using BusinessLogicLayer.Exceptions;
 using DataAccesLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -67,7 +68,7 @@ namespace BusinessLogicLayer.Extensions
         public static void MapVacationRequestApprove(this VacationRequest vacationRequest)
         {
             vacationRequest.Status = Enums.VacationRequestStatus.Accepted;
-            vacationRequest.Employee.DaysOffNumber -= (vacationRequest.EndDate - vacationRequest.StartDate).Days;
+            vacationRequest.Employee.DaysOffNumber -= Guard.GetWorkingDays(vacationRequest.StartDate, vacationRequest.EndDate);
             vacationRequest.UpdateDate = DateTime.UtcNow;
         }
     }
