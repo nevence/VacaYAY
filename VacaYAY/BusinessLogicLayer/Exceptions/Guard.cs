@@ -53,6 +53,14 @@ namespace BusinessLogicLayer.Exceptions
             }
         }
 
+        public static void ThrowIfInvalidEmploymentDate(Employee employee)
+        {
+            if (employee.EmploymentEndDate != null && employee.EmploymentStartDate > employee.EmploymentEndDate)
+            {
+                throw new ArgumentException(ErrorMessages.InvalidEmploymentDate);
+            }
+        }
+
         public static int GetWorkingDays(DateTime start, DateTime end)
         {
             int totalDays = 0;

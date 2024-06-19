@@ -19,13 +19,14 @@ namespace BusinessLogicLayer.Extensions
         {
             return new EmployeeDto
             {
+                Id = employee.Id,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 Address = employee.Address,
                 IDNumber = employee.IDNumber,
                 DaysOffNumber = employee.DaysOffNumber,
                 PositionId = employee.PositionId,
-                PositionCaption = employee.Position.Caption.ToString(),
+                PositionCaption = employee.Position.Caption,
                 EmploymentStartDate = employee.EmploymentStartDate,
                 EmploymentEndDate = employee.EmploymentEndDate
             };
@@ -78,6 +79,7 @@ namespace BusinessLogicLayer.Extensions
             user.IDNumber = employeeForUpdate.IDNumber;
             user.DaysOffNumber = employeeForUpdate.DaysOffNumber;
             user.PositionId = employeeForUpdate.PositionId;
+            user.EmploymentStartDate = employeeForUpdate.EmploymentStartDate;
             user.EmploymentEndDate = employeeForUpdate.EmploymentEndDate;
             user.UpdateDate = DateTime.UtcNow;
 

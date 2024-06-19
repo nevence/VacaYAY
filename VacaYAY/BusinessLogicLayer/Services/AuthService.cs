@@ -69,7 +69,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task<EmployeeDto> GetUser(int employeeId)
         {
-            var user = await _userManager.FindByIdAsync(employeeId.ToString());
+            var user = await _userManager.Users.Include(e => e.Position).FirstOrDefaultAsync(e => e.Id.Equals(employeeId));
 
             Guard.ThrowIfNotFound(user, employeeId);
 
@@ -111,6 +111,9 @@ namespace BusinessLogicLayer.Services
         public async Task<bool> RegisterUser(EmployeeForRegistrationDto employeeForRegistration)
         {
             var employee = employeeForRegistration.MapToEmployeeRegistration();
+
+            Guard.ThrowIfInvalidEmploymentDate(employee);
+
             var result = await _userManager.CreateAsync(employee,
                 employeeForRegistration.Password);
 
@@ -130,6 +133,8 @@ namespace BusinessLogicLayer.Services
             Guard.ThrowIfNotFound(user, employeeId);
 
             user.MapToEmployeeUpdate(employeeForUpdate);
+
+            Guard.ThrowIfInvalidEmploymentDate(user);
 
             var result = await _userManager.UpdateAsync(user);
 
@@ -188,11 +193,16 @@ namespace BusinessLogicLayer.Services
 
         private async Task<(IEnumerable<Employee> entities, int count)> GetUsersAsync(RequestParameters requestParameters)
          {
-            var query = _userManager.Users;
+            var query = _userManager.Users.Include(e => e.Position).AsQueryable();
 
             if (!string.IsNullOrEmpty(requestParameters.SearchTerm))
             {
                 query = query.Where(v => v.FirstName.Contains(requestParameters.SearchTerm) || v.LastName.Contains(requestParameters.SearchTerm));
+            }
+
+            if(requestParameters.Caption != Enums.PositionCaption.None)
+            {
+                query = query.Where(e => e.Position.Caption.Equals(requestParameters.Caption));
             }
 
             var _users = await query

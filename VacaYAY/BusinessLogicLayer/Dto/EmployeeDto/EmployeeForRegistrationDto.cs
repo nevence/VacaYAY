@@ -21,10 +21,6 @@ namespace BusinessLogicLayer.Dto.EmployeeDto
 
         [Required(ErrorMessage = ErrorMessages.RequiredField)]
         public Roles Role { get; init; }
-
-        [Required(ErrorMessage = ErrorMessages.RequiredField)]
-        [DisplayName(DisplayNameEmployee.EmploymentStartDate)]
-        public DateTime EmploymentStartDate { get; init; } = DateTime.Now;
     }
 
 }
