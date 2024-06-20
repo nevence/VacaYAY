@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.Contracts;
 using BusinessLogicLayer.Dto.EmployeeDto;
 using BusinessLogicLayer.Dto.VacationRequestDto;
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -35,6 +36,8 @@ namespace PresentationLayer.Controllers
         public async Task<IActionResult> Login(EmployeeForAuthenticationDto employeeForAuth)
         {
             var result = await _service.AuthService.Login(employeeForAuth);
+
+            TempData[SuccessMessages.SuccessMessage] = SuccessMessages.EmployeeLogin;
             return RedirectToAction(nameof(Index));
         }
 
@@ -53,6 +56,8 @@ namespace PresentationLayer.Controllers
         public async Task<IActionResult> Register(EmployeeForRegistrationDto employeeForRegistration)
         {
             var result = await _service.AuthService.RegisterUser(employeeForRegistration);
+
+            TempData[SuccessMessages.SuccessMessage] = SuccessMessages.EmployeeRegister;
             return RedirectToAction(nameof(Index));
         }
 
@@ -77,6 +82,8 @@ namespace PresentationLayer.Controllers
         public async Task<IActionResult> Edit(int id, EmployeeForUpdateDto employee)
         {
             await _service.AuthService.UpdateUser(id, employee);
+
+            TempData[SuccessMessages.SuccessMessage] = SuccessMessages.Edit;
             return RedirectToAction(nameof(Employees));
         }
 
@@ -90,6 +97,8 @@ namespace PresentationLayer.Controllers
         public async Task<IActionResult> Delete(int id, bool notUsed)
         {
             var result = await _service.AuthService.DeleteUser(id);
+
+            TempData[SuccessMessages.SuccessMessage] = SuccessMessages.Delete;
             return RedirectToAction(nameof(Employees));
         }
     }

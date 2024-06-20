@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+@using BusinessLogicLayer.Exceptions
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,10 +32,10 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @if (TempData["SuccessMessage"] != null)
+            @if (TempData[SuccessMessages.SuccessMessage] != null)
             {
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    @TempData["SuccessMessage"]
+                    @TempData[SuccessMessages.SuccessMessage]
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }

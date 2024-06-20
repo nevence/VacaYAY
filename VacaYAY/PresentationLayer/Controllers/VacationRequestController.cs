@@ -53,6 +53,8 @@ namespace PresentationLayer.Controllers
         public async Task<IActionResult> Edit(int id, VacationRequestForUpdateDto request)
         {
             await _service.VacationRequestService.UpdateVacationRequestAsync(id, request);
+
+            TempData[SuccessMessages.SuccessMessage] = SuccessMessages.Edit;
             return RedirectToAction(nameof(Index));
         }
 
@@ -66,6 +68,8 @@ namespace PresentationLayer.Controllers
         public async Task<IActionResult> Reject(int id, bool notUsed)
         {
             await _service.VacationRequestService.RejectVacationRequestAsync(id);
+
+            TempData[SuccessMessages.SuccessMessage] = SuccessMessages.RequestReject;
             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Approve(int id)
@@ -78,6 +82,8 @@ namespace PresentationLayer.Controllers
         public async Task<IActionResult> Approve(int id, bool notUsed)
         {
             await _service.VacationRequestService.ApproveVacationRequestAsync(id);
+
+            TempData[SuccessMessages.SuccessMessage] = SuccessMessages.RequestApprove;
             return RedirectToAction(nameof(Index));
         }
     }

@@ -12,7 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add<ErrorExceptionFilter>();
-    options.Filters.Add<NotificationFilter>();
 });
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureIdentity(builder.Configuration);
