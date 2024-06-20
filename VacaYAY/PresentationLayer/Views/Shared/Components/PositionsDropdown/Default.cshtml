@@ -1,7 +1,23 @@
 ﻿@using BusinessLogicLayer.ViewModel
+@using static DataAccesLayer.Entities.Enums
 @model List<PositionDropdownViewModel>
+@{
+    int? employeePositionId = ViewData["EmployeePositionId"] as int?;
+}
 
 @foreach (var position in Model)
 {
-    <option value="@position.Id">@position.Caption</option>
+    if(position.Caption == PositionCaption.None)
+    {
+        continue;
+    }
+    if(position.Id == employeePositionId)
+    {
+        <option value="@position.Id" selected>@position.Caption</option>
+
+    }
+    else
+    {
+        <option value="@position.Id">@position.Caption</option>
+    }
 }

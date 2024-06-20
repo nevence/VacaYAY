@@ -1,0 +1,29 @@
+﻿@using BusinessLogicLayer.ViewModel
+@using static DataAccesLayer.Entities.Enums
+@model PaginationParameters
+
+<form asp-action='@Model.ActionName' asp-controller="@Model.ControllerName" method="get" class="form-inline mb-3">
+    <select id="captionSelect" name="caption" class="form-control mr-2" onchange="this.form.submit()">
+        <option value="">All</option>
+        @{
+            foreach (var caption in Enum.GetValues(typeof(PositionCaption)).Cast<PositionCaption>())
+            {
+                if (caption == PositionCaption.None)
+                {
+                    continue;
+                }
+                if (caption == Model.Caption)
+                {
+                    <option value="@caption" selected>@caption</option>
+                }
+                else
+                {
+                    <option value="@caption">@caption</option>
+                }
+            }
+        }
+    </select>
+    <input type="hidden" name="searchTerm" value="@Model.SearchTerm" />
+    <input type="hidden" name="pageNumber" value="1" />
+    <input type="hidden" name="pageSize" value="@Model.PageSize" />
+</form>

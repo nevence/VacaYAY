@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer.Dto.PositionDto;
 using BusinessLogicLayer.Dto.VacationRequestDto;
+using BusinessLogicLayer.Exceptions;
 using DataAccesLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace BusinessLogicLayer.Extensions
         {
             return new VacationRequestDto
             {
+                Id = vacationRequest.Id,
                 EmployeeId = vacationRequest.EmployeeId,
                 FullName = $"{vacationRequest.Employee.FirstName} {vacationRequest.Employee.LastName}",
                 StartDate = vacationRequest.StartDate,
@@ -52,9 +54,23 @@ namespace BusinessLogicLayer.Extensions
             vacationRequest.Status = vacationRequestForUpdate.Status;
             vacationRequest.LeaveType = vacationRequestForUpdate.LeaveType;
             vacationRequest.HRComment = vacationRequestForUpdate.HRComment;
-            vacationRequest.EmployeeComment = vacationRequestForUpdate.EmployeeComment; 
+            vacationRequest.EmployeeComment = vacationRequestForUpdate.EmployeeComment;
+            vacationRequest.StartDate = vacationRequestForUpdate.StartDate;
+            vacationRequest.EndDate = vacationRequestForUpdate.EndDate;
             vacationRequest.UpdateDate = DateTime.UtcNow;
+        }
 
+        public static void MapVacationRequestReject(this VacationRequest vacationRequest)
+        {
+            vacationRequest.Status = Enums.VacationRequestStatus.Rejected;
+            vacationRequest.UpdateDate = DateTime.UtcNow;
+        }
+
+        public static void MapVacationRequestApprove(this VacationRequest vacationRequest)
+        {
+            vacationRequest.Status = Enums.VacationRequestStatus.Accepted;
+            vacationRequest.Employee.DaysOffNumber -= Guard.GetWorkingDays(vacationRequest.StartDate, vacationRequest.EndDate);
+            vacationRequest.UpdateDate = DateTime.UtcNow;
         }
     }
    

@@ -19,5 +19,11 @@ namespace BusinessLogicLayer.Dto.VacationRequestDto
         public string? HRComment { get; set; }
 
         public string? EmployeeComment { get; set; }
+
+        [Required(ErrorMessage = ErrorMessages.RequiredField)]
+        public DateTime StartDate { get; set; }
+
+        [Required(ErrorMessage = ErrorMessages.RequiredField)]
+        public DateTime EndDate { get; set; }
     }
 }

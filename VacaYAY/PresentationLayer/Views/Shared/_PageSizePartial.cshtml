@@ -1,0 +1,26 @@
+﻿@using BusinessLogicLayer.ViewModel
+@using static DataAccesLayer.Entities.Enums
+@model PaginationParameters
+
+<form asp-action="@Model.ActionName" asp-controller="@Model.ControllerName" method="get" class="form-inline mb-3">
+    <select id="pageSizeSelect" name="pageSize" class="form-control mr-2" onchange="this.form.submit()">
+        @foreach (var size in new int[] { 5, 10, 25, 50 })
+        {
+            if (Model.PageSize == size)
+            {
+                <option value="@size" selected>@size</option>
+            }
+            else
+            {
+                <option value="@size">@size</option>
+            }
+        }
+    </select>
+
+    <input type="hidden" name="searchTerm" value="@Model.SearchTerm" />
+    <input type="hidden" name="status" value="@Model.Status" />
+    <input type="hidden" name="leaveType" value="@Model.LeaveType" />
+    <input type="hidden" name="caption" value="@Model.Caption" />
+    <input type="hidden" name="pageNumber" value="1" />
+</form>
+

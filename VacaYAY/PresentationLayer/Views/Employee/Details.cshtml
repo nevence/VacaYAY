@@ -1,0 +1,68 @@
+﻿@model BusinessLogicLayer.Dto.EmployeeDto.EmployeeDto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            First name
+        </dt>
+        <dd class = "col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class = "col-sm-2">
+            Last name
+        </dt>
+        <dd class = "col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class = "col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IDNumber)
+        </dt>
+        <dd class = "col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.IDNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            Days off number
+        </dt>
+        <dd class = "col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.DaysOffNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            Position
+        </dt>
+        <dd class = "col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.PositionCaption)
+        </dd>
+        <dt class = "col-sm-2">
+           Employment start date
+        </dt>
+        <dd class = "col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.EmploymentStartDate)
+        </dd>
+        <dt class = "col-sm-2">
+            Employment end date
+        </dt>
+        <dd class = "col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.EmploymentEndDate)
+        </dd>
+    </dl>
+</div>
+
+<div class="mt-4">
+    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-warning">
+        Edit <i class="fa-solid fa-pen-to-square ms-2"></i>
+    </a>
+    <a asp-action="Employees" class="btn btn-primary ms-2">Back to List <i class="fa-solid fa-right-from-bracket ms-2"></i></a>
+</div>

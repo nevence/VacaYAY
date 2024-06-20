@@ -1,0 +1,30 @@
+﻿@using BusinessLogicLayer.ViewModel
+@using static DataAccesLayer.Entities.Enums
+@model PaginationParameters
+
+<form asp-action='@Model.ActionName' asp-controller="@Model.ControllerName" method="get" class="form-inline mb-3">
+    <select id="leaveTypeSelect" name="leaveType" class="form-control mr-2" onchange="this.form.submit()">
+        <option value="">All</option>
+        @{
+            foreach (var leave in Enum.GetValues(typeof(VacationRequestLeaveType)).Cast<VacationRequestLeaveType>())
+            {
+                if (leave == VacationRequestLeaveType.None)
+                {
+                    continue;
+                }
+                if (leave == Model.LeaveType)
+                {
+                    <option value="@leave" selected>@leave</option>
+                }
+                else
+                {
+                    <option value="@leave">@leave</option>
+                }
+            }
+        }
+    </select>
+    <input type="hidden" name="searchTerm" value="@Model.SearchTerm" />
+    <input type="hidden" name="status" value="@Model.Status" />
+    <input type="hidden" name="pageNumber" value="1" />
+    <input type="hidden" name="pageSize" value="@Model.PageSize" />
+</form>

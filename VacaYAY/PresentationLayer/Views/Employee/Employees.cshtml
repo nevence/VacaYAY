@@ -1,0 +1,88 @@
+﻿@using BusinessLogicLayer.Dto.EmployeeDto
+@using BusinessLogicLayer.Dto.VacationRequestDto
+@using BusinessLogicLayer.ViewModel
+@using DataAccesLayer.Entities
+@model PaginatedResponse<EmployeeDto>
+
+@{
+    var parameters = new PaginationParameters
+            {
+                CurrentPage = Model.CurrentPage,
+                TotalPages = Model.TotalPages,
+                PageSize = Model.PageSize,
+                TotalCount = Model.TotalCount,
+                HasPrevious = Model.HasPrevious,
+                HasNext = Model.HasNext,
+                SearchTerm = Model.SearchTerm,
+                LeaveType = Model.LeaveType,
+                Status = Model.Status,
+                Caption = Model.Caption,
+                ControllerName = "Employee",
+                ActionName = "Employees"
+            };
+}
+
+<h1>Employees</h1>
+
+<hr class="mb-5" />
+
+<div class="row mb-1">
+    <div class="col-md-4">
+        <label for="searchInput">Filter by search:</label>
+        @await Html.PartialAsync("_SearchPartial", parameters)
+    </div>
+    <div class="col-md-4">
+        <label for="captionSelect">Filter by position:</label>
+        @await Html.PartialAsync("_PositionCaptionPartial", parameters)
+    </div>
+    <div class="col-md-4">
+        <label for="pageSizeSelect">Show:</label>
+        @await Html.PartialAsync("_PageSizePartial", parameters)
+    </div>
+    <div class="col-md-4 text-right">
+        <a asp-action="Employees" class="btn btn-secondary">Reset Filters</a>
+    </div>
+</div>
+
+
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Position</th>
+            <th>Employment start date</th>
+            <th>Employment end date</th>
+            <th>Days off number</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model.Items)
+        {
+            <tr>
+                <td>@employee.FirstName</td>
+                <td>@employee.LastName</td>
+                <td>@employee.PositionCaption</td>
+                <td>@employee.EmploymentStartDate</td>
+                <td>@employee.EmploymentEndDate</td>
+                <td>@employee.DaysOffNumber</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@employee.Id" class="btn btn-sm btn-outline-info">
+                        <i class="fa-solid fa-eye"></i> Details
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-sm btn-outline-warning">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-sm btn-outline-danger">
+                        <i class="fa-solid fa-trash-can"></i> Delete
+                    </a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+@await Html.PartialAsync("_PaginationPartial", parameters)

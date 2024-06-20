@@ -18,5 +18,7 @@ namespace BusinessLogicLayer.Contracts
         Task<int> CreateVacationRequestAsync(VacationRequestForCreationDto vacationRequestForCreation);
         Task UpdateVacationRequestAsync(int id, VacationRequestForUpdateDto vacationRequestForUpdate);
         Task DeleteVacationRequestAsync(int id);
+        Task ApproveVacationRequestAsync(int id);
+        Task RejectVacationRequestAsync(int id);
     }
 }

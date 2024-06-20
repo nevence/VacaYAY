@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DataAccesLayer.Entities.Enums;
 
 namespace BusinessLogicLayer.ViewModel
 {
@@ -19,5 +20,8 @@ namespace BusinessLogicLayer.ViewModel
         }
 
         public string SearchTerm { get; set; }
+        public VacationRequestLeaveType LeaveType { get; set; } = VacationRequestLeaveType.None;    
+        public VacationRequestStatus Status { get; set; } = VacationRequestStatus.None;
+        public PositionCaption Caption { get; set; } = PositionCaption.None;
     }
 }

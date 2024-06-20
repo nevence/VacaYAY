@@ -39,5 +39,9 @@ namespace BusinessLogicLayer.Dto.EmployeeDto
 
         [DisplayName(DisplayNameEmployee.EmploymentEndDate)]
         public DateTime? EmploymentEndDate { get; init; }
+
+        [Required(ErrorMessage = ErrorMessages.RequiredField)]
+        [DisplayName(DisplayNameEmployee.EmploymentStartDate)]
+        public DateTime EmploymentStartDate { get; init; } = DateTime.Now;
     }
 }
