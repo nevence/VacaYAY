@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Contracts;
+﻿using Azure.Core;
+using BusinessLogicLayer.Contracts;
 using BusinessLogicLayer.Dto.VacationRequestDto;
 using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Extensions;
@@ -24,7 +25,7 @@ namespace BusinessLogicLayer.Services
             _repository = repository;
         }
 
-        public async Task<int> CreateVacationRequestAsync(VacationRequestForCreationDto vacationRequestForCreation)
+        public async Task CreateVacationRequestAsync(VacationRequestForCreationDto vacationRequestForCreation)
         {
             var vacationRequestEntity = vacationRequestForCreation.MapToVacationRequestCreation();
             Guard.ThrowIfInvalidLeaveDate(vacationRequestEntity);
@@ -32,8 +33,6 @@ namespace BusinessLogicLayer.Services
             _repository.VacationRequest.Create(vacationRequestEntity);
 
             await _repository.SaveAsync();
-            
-            return vacationRequestEntity.Id;
         }
 
         public async Task DeleteVacationRequestAsync(int id)
@@ -78,9 +77,9 @@ namespace BusinessLogicLayer.Services
         {
             var vacationRequestEntity = await _repository.VacationRequest.FindByCondition(v => v.Id.Equals(id), true).Include(v => v.Employee).SingleOrDefaultAsync();
             Guard.ThrowIfNotFound(vacationRequestEntity, id);
-            Guard.ThrowIfInvalidLeaveDate(vacationRequestEntity);
 
             vacationRequestEntity.MapToVacationRequestUpdate(vacationRequestForUpdate);
+            Guard.ThrowIfInvalidLeaveDate(vacationRequestEntity);
 
             await _repository.SaveAsync();
         }
@@ -89,6 +88,7 @@ namespace BusinessLogicLayer.Services
         {
             var vacationRequestEntity = await _repository.VacationRequest.FindByCondition(v => v.Id.Equals(id), true).Include(v => v.Employee).SingleOrDefaultAsync();
             Guard.ThrowIfNotFound(vacationRequestEntity, id);
+            Guard.ThrowIfRequestProcessed(vacationRequestEntity);
 
             vacationRequestEntity.MapVacationRequestReject();
 
@@ -100,6 +100,7 @@ namespace BusinessLogicLayer.Services
             var vacationRequestEntity = await _repository.VacationRequest.FindByCondition(v => v.Id.Equals(id), true).Include(v => v.Employee).SingleOrDefaultAsync();
             Guard.ThrowIfNotFound(vacationRequestEntity, id);
             Guard.ThrowIfInsufficentDaysOff(vacationRequestEntity);
+            Guard.ThrowIfRequestProcessed(vacationRequestEntity);
 
             vacationRequestEntity.MapVacationRequestApprove();
 

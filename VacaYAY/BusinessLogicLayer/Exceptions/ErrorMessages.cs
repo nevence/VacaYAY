@@ -18,6 +18,7 @@ namespace BusinessLogicLayer.Exceptions
         public const string Success = "Action completed successfully.";
         public const string InvalidLeaveDate = "Leave start date must come before leave end date.";
         public const string InvalidEmploymentDate = "Employment start date must come before employment end date.";
+        public const string RequestProcessed = "This leave request has already been processed.";
     }
 
 }

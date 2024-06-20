@@ -15,7 +15,7 @@ namespace BusinessLogicLayer.Contracts
         Task<VacationRequestDto> GetVacationRequestAsync(int id);
         Task<PaginatedResponse<VacationRequestDto>> GetVacationRequestsForEmployeeAsync(RequestParameters requestParameters, int employeeId);
         Task<PaginatedResponse<VacationRequestDto>> GetVacationRequestsAsync(RequestParameters requestParameters);
-        Task<int> CreateVacationRequestAsync(VacationRequestForCreationDto vacationRequestForCreation);
+        Task CreateVacationRequestAsync(VacationRequestForCreationDto vacationRequestForCreation);
         Task UpdateVacationRequestAsync(int id, VacationRequestForUpdateDto vacationRequestForUpdate);
         Task DeleteVacationRequestAsync(int id);
         Task ApproveVacationRequestAsync(int id);

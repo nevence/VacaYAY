@@ -70,8 +70,11 @@
 </div>
 
 <div class="mt-4">
-    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-warning">
-        Edit <i class="fa-solid fa-pen-to-square ms-2"></i>
-    </a>
+    @if(Model.Status == Enums.VacationRequestStatus.Pending)
+    {
+        <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-warning">
+            Edit <i class="fa-solid fa-pen-to-square ms-2"></i>
+        </a>
+    }
     <a asp-action="Index" class="btn btn-primary ms-2">Back to List <i class="fa-solid fa-right-from-bracket ms-2"></i></a>
 </div>
