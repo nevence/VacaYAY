@@ -16,6 +16,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="EmployeeId" type="hidden" value="@User.FindFirst(ClaimTypes.NameIdentifier)?.Value" />
             <div class="form-group mb-3">
+                @await Component.InvokeAsync("UserDaysOff", int.Parse(@User.FindFirst(ClaimTypes.NameIdentifier)?.Value))
+            </div>
+            <div class="form-group mb-3">
                 <label asp-for="LeaveType" class="control-label">Leave type</label>
                 <select asp-for="LeaveType" class="form-control">
                     <option value="">Select a leave type</option>
