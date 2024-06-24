@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DataAccesLayer.Entities.Enums;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BusinessLogicLayer.Services
@@ -158,7 +159,7 @@ namespace BusinessLogicLayer.Services
                     foreach (var employee in employees)
                     {
                         var position = await _repository.Position
-                            .FindByCondition(p => p.Caption.ToString() == employee.Position.Name, false)
+                            .FindByCondition(p => p.Caption == Enum.Parse<PositionCaption>(employee.Position.Name), false)
                             .SingleOrDefaultAsync();
                         Guard.ThrowIfNotFoundString(position);
 
@@ -177,7 +178,7 @@ namespace BusinessLogicLayer.Services
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                throw new InvalidOperationException(ErrorMessages.EmployeeMigrationError, ex);
+                throw new InvalidOperationException(ex.Message);
             }
         }
 

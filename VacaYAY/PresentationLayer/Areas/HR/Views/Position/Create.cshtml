@@ -1,0 +1,44 @@
+﻿@using static DataAccesLayer.Entities.Enums
+@model BusinessLogicLayer.Dto.PositionDto.PositionForCreationDto
+
+@{
+    ViewData["Title"] = "Create a leave request";
+}
+
+<h1>Create</h1>
+
+<h4>Add a new position</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="Caption" class="control-label">Caption</label>
+                <select asp-for="Caption" class="form-control">
+                    <option value="">Position name</option>>
+                    @await Component.InvokeAsync("CreatePositionsDropdown")
+                </select>
+                <span asp-validation-for="Caption" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="control-label">Description</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Index" class="btn btn-primary">Back to List <i class="fa-solid fa-right-from-bracket ms-2"></i></a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

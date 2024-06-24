@@ -1,0 +1,31 @@
+﻿@using DataAccesLayer.Entities
+@using static DataAccesLayer.Entities.Enums
+
+@{
+    ViewData["Title"] = "Load employees";
+}
+
+<h1 class="mb-4">Migrate old employees into the database</h1>
+
+<div class="row">
+    <h3 class="mb-4">Your database is not up to date.</h3>
+    <h4 class="mb-4 text-danger">Would you like to migrate old employees into the database?</h4>
+
+    <form asp-action="Load" class="mt-4">
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">
+                Load employees <i class="fa-solid fa-plus ms-2"></i>
+            </button>
+        </div>
+    </form>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Employees" class="btn btn-primary">Back to List <i class="fa-solid fa-right-from-bracket ms-2"></i></a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -63,7 +63,7 @@
         </dl>
     </div>
 
-    <form asp-action="Delete" class="mt-4">
+    <form asp-action="Delete" asp-area="HR" class="mt-4">
         <input type="hidden" name="id" value="@Model.Id" />
         <input type="hidden" name="notUsed" value="true" />
         <div class="form-group">
@@ -75,7 +75,9 @@
 </div>
 
 <div class="mt-3">
-    <a asp-action="Employees" class="btn btn-primary">Back to List <i class="fa-solid fa-right-from-bracket ms-2"></i></a>
+    <a asp-action="Employees" asp-area="HR" class="btn btn-primary">
+        Back to List <i class="fa-solid fa-right-from-bracket ms-2"></i>
+    </a>
 </div>
 
 @section Scripts {

@@ -43,11 +43,13 @@ namespace PresentationLayer.Extensions
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.SlidingExpiration = true;
                 options.LoginPath = "/Employee/Login";
+                options.AccessDeniedPath = "/Employee/Login";
             });
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/Employee/Login"; 
+                options.LoginPath = "/Employee/Login";
+                options.AccessDeniedPath = "/Employee/Login";
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.SlidingExpiration = true;

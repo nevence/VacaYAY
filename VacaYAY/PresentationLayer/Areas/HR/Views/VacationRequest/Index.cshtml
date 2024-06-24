@@ -22,27 +22,23 @@
             };
 }
 
-<h1>My leave requests</h1>
+<h1>Leave requests</h1>
 <hr class="mb-5" />
 
-<div class="row mb-3">
-    <div class="col-md-12 d-flex justify-content-end">
-        <a asp-action="Create" class="btn btn-outline-primary">
-            <i class="fa-solid fa-plus me-2"></i>
-            Create a new leave request
-        </a>
-    </div>
-</div>
 <div class="row mb-1">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <label for="leaveTypeSelect">Filter by leave type:</label>
         @await Html.PartialAsync("_LeaveTypePartial", parameters)
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <label for="statusSelect">Filter by status:</label>
         @await Html.PartialAsync("_StatusPartial", parameters)
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
+        <label for="searchInput">Filter by search:</label>
+        @await Html.PartialAsync("_SearchPartial", parameters)
+    </div>
+    <div class="col-md-3">
         <label for="pageSizeSelect">Show:</label>
         @await Html.PartialAsync("_PageSizePartial", parameters)
     </div>
@@ -56,6 +52,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th>Full name</th>
             <th>Leave type</th>
             <th>Request date</th>
             <th>Start date</th>
@@ -68,6 +65,7 @@
         @foreach (var request in Model.Items)
         {
             <tr>
+                <td>@request.FullName</td>
                 <td>@request.LeaveType</td>
                 <td>@request.RequestDate</td>
                 <td>@request.StartDate</td>
@@ -82,8 +80,11 @@
                         <a asp-action="Edit" asp-route-id="@request.Id" class="btn btn-sm btn-outline-warning">
                             <i class="fa-solid fa-pen-to-square"></i> Edit
                         </a>
-                        <a asp-action="Delete" asp-route-id="@request.Id" class="btn btn-sm btn-outline-danger">
-                            <i class="fa-solid fa-trash-can"></i> Delete
+                        <a asp-action="Reject" asp-route-id="@request.Id" class="btn btn-sm btn-outline-danger">
+                            <i class="fa-solid fa-times"></i> Reject
+                        </a>
+                        <a asp-action="Approve" asp-route-id="@request.Id" class="btn btn-sm btn-outline-success">
+                            <i class="fa-solid fa-check"></i> Approve
                         </a>
                     }
                 </td>

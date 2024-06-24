@@ -8,9 +8,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace PresentationLayer.Controllers
+namespace PresentationLayer.Areas.HR.Controllers
 {
-    [Authorize(Roles = ApiRoutes.EmployeeRoute)]
+    [Area(ApiRoutes.HRRoute)]
+    [Authorize(Roles = ApiRoutes.HRRoute)]
     public class VacationRequestController : Controller
     {
         private readonly ILogger<VacationRequestController> _logger;
@@ -24,12 +25,9 @@ namespace PresentationLayer.Controllers
 
         public async Task<IActionResult> Index(RequestParameters parameters)
         {
-            var result = await _service.VacationRequestService.GetVacationRequestsForEmployeeAsync(
-                parameters, int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
-                );
+            var result = await _service.VacationRequestService.GetVacationRequestsAsync(parameters);
             return View(result);
         }
-   
 
         public async Task<IActionResult> Details(int id)
         {
@@ -53,34 +51,35 @@ namespace PresentationLayer.Controllers
             TempData[SuccessMessages.SuccessMessage] = SuccessMessages.Edit;
             return RedirectToAction(nameof(Index));
         }
-        
 
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(VacationRequestForCreationDto request)
-        {
-            await _service.VacationRequestService.CreateVacationRequestAsync(request);
-
-            TempData[SuccessMessages.SuccessMessage] = SuccessMessages.RequestCreate;
-            return RedirectToAction(nameof(Index));
-        }
-
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Reject(int id)
         {
             var request = await _service.VacationRequestService.GetVacationRequestAsync(id);
+            Guard.ThrowIfRequestProcessed(request);
             return View(request);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id, bool notUsed)
+        public async Task<IActionResult> Reject(int id, bool notUsed)
         {
-            await _service.VacationRequestService.DeleteVacationRequestAsync(id);
+            await _service.VacationRequestService.RejectVacationRequestAsync(id);
 
-            TempData[SuccessMessages.SuccessMessage] = SuccessMessages.Delete;
+            TempData[SuccessMessages.SuccessMessage] = SuccessMessages.RequestReject;
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Approve(int id)
+        {
+            var request = await _service.VacationRequestService.GetVacationRequestAsync(id);
+            Guard.ThrowIfRequestProcessed(request);
+            return View(request);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Approve(int id, bool notUsed)
+        {
+            await _service.VacationRequestService.ApproveVacationRequestAsync(id);
+
+            TempData[SuccessMessages.SuccessMessage] = SuccessMessages.RequestApprove;
             return RedirectToAction(nameof(Index));
         }
     }

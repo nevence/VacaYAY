@@ -17,6 +17,7 @@ namespace BusinessLogicLayer.Exceptions
         public const string RequestReject = "Sucessfully rejected a leave request";
         public const string Edit = "Sucessfully edited.";
         public const string Delete = "Sucessfully deleted.";
-
+        public const string MigrateEmployees = "Successfully loaded old employees into the database.";
+        public const string PositionCreate = "Succesfully added a new position";
     }
 }

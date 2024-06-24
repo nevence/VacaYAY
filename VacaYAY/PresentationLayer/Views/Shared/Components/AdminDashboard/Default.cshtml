@@ -37,4 +37,17 @@
             </div>
         </div>
 </div>
+    @if(Model.TotalEmployees < 10)
+    {
+        <div class="row">
+            <div col-md-12>
+                <a asp-action="Load" class="btn btn-outline-primary">
+                    <i class="fa-solid fa-plus me-2"></i>
+                    Load existing employees from the old database
+                </a>
+            </div>
+
+        </div>
+    }
+ 
 </div>
