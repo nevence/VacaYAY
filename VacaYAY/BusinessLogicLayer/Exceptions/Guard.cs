@@ -61,6 +61,18 @@ namespace BusinessLogicLayer.Exceptions
             }
         }
 
+        public static void ThrowIfRequestProcessed(object request)
+        {
+            var statusProperty = request.GetType().GetProperty("Status");
+
+            var status = (Enums.VacationRequestStatus)statusProperty.GetValue(request);
+
+            if (status != Enums.VacationRequestStatus.Pending)
+            {
+                throw new ArgumentException(ErrorMessages.RequestProcessed);
+            }
+        }
+
         public static int GetWorkingDays(DateTime start, DateTime end)
         {
             int totalDays = 0;

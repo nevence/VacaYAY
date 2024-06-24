@@ -1,6 +1,7 @@
 ﻿@using BusinessLogicLayer.Dto.VacationRequestDto
 @using BusinessLogicLayer.ViewModel
 @using DataAccesLayer.Entities
+@using static DataAccesLayer.Entities.Enums
 @model PaginatedResponse<VacationRequestDto>
 
 @{
@@ -31,30 +32,62 @@ else
 }
 <hr class="mb-5" />
 
-<div class="row mb-1">
-    <div class="col-md-3">
-        <label for="leaveTypeSelect">Filter by leave type:</label>
-        @await Html.PartialAsync("_LeaveTypePartial", parameters)
+@if (User.IsInRole(Enums.Roles.Employee.ToString()))
+{
+    <div class="row mb-3">
+        <div class="col-md-12 d-flex justify-content-end">
+            <a asp-action="Create" class="btn btn-outline-primary">
+                <i class="fa-solid fa-plus me-2"></i>
+                Create a new leave request
+            </a>
+        </div>
     </div>
-    <div class="col-md-3">
-        <label for="statusSelect">Filter by status:</label>
-        @await Html.PartialAsync("_StatusPartial", parameters)
+    <div class="row mb-1">
+        <div class="col-md-4">
+            <label for="leaveTypeSelect">Filter by leave type:</label>
+            @await Html.PartialAsync("_LeaveTypePartial", parameters)
+        </div>
+        <div class="col-md-4">
+            <label for="statusSelect">Filter by status:</label>
+            @await Html.PartialAsync("_StatusPartial", parameters)
+        </div>
+        <div class="col-md-4">
+            <label for="pageSizeSelect">Show:</label>
+            @await Html.PartialAsync("_PageSizePartial", parameters)
+        </div>
     </div>
-    <div class="col-md-3">
-        <label for="searchInput">Filter by search:</label>
-        @await Html.PartialAsync("_SearchPartial", parameters)
+    <div class="row mb-3">
+        <div class="col-md-3 text-right">
+            <a asp-action="Index" class="btn btn-secondary">Reset Filters</a>
+        </div>
     </div>
-    <div class="col-md-3">
-        <label for="pageSizeSelect">Show:</label>
-        @await Html.PartialAsync("_PageSizePartial", parameters)
+}
+else
+{
+    <div class="row mb-1">
+        <div class="col-md-3">
+            <label for="leaveTypeSelect">Filter by leave type:</label>
+            @await Html.PartialAsync("_LeaveTypePartial", parameters)
+        </div>
+        <div class="col-md-3">
+            <label for="statusSelect">Filter by status:</label>
+            @await Html.PartialAsync("_StatusPartial", parameters)
+        </div>
+        <div class="col-md-3">
+            <label for="searchInput">Filter by search:</label>
+            @await Html.PartialAsync("_SearchPartial", parameters)
+        </div>
+        <div class="col-md-3">
+            <label for="pageSizeSelect">Show:</label>
+            @await Html.PartialAsync("_PageSizePartial", parameters)
+        </div>
     </div>
-</div>
-<div class="row mb-3">
-    <div class="col-md-12 text-right">
-        <a asp-action="Index" class="btn btn-secondary">Reset Filters</a>
+    <div class="row mb-3">
+        <div class="col-md-3 text-right">
+            <a asp-action="Index" class="btn btn-secondary">Reset Filters</a>
+        </div>
     </div>
-</div>
-
+}
 
 
 <table class="table table-striped">
@@ -89,20 +122,30 @@ else
                     <a asp-action="Details" asp-route-id="@request.Id" class="btn btn-sm btn-outline-info">
                         <i class="fa-solid fa-eye"></i> Details
                     </a>
-                    <a asp-action="Edit" asp-route-id="@request.Id" class="btn btn-sm btn-outline-warning">
-                        <i class="fa-solid fa-pen-to-square"></i> Edit
-                    </a> 
-                   
-                    @if (request.Status == DataAccesLayer.Entities.Enums.VacationRequestStatus.Pending && User.IsInRole(Enums.Roles.HR.ToString()))
+                    @if(request.Status == DataAccesLayer.Entities.Enums.VacationRequestStatus.Pending) 
                     {
-                        <a asp-action="Reject" asp-route-id="@request.Id" class="btn btn-sm btn-outline-danger">
-                            <i class="fa-solid fa-times"></i> Reject
+                        <a asp-action="Edit" asp-route-id="@request.Id" class="btn btn-sm btn-outline-warning">
+                            <i class="fa-solid fa-pen-to-square"></i> Edit
                         </a>
+                        @if (User.IsInRole(Roles.Employee.ToString()))
+                        {
+                            <a asp-action="Delete" asp-route-id="@request.Id" class="btn btn-sm btn-outline-danger">
+                                <i class="fa-solid fa-trash-can"></i> Delete
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="Reject" asp-route-id="@request.Id" class="btn btn-sm btn-outline-danger">
+                                <i class="fa-solid fa-times"></i> Reject
+                            </a>
 
-                        <a asp-action = "Approve" asp-route-id = "@request.Id" class="btn btn-sm btn-outline-success">
-                            <i class="fa-solid fa-check"></i> Approve
-                        </a>
+                            <a asp-action="Approve" asp-route-id="@request.Id" class="btn btn-sm btn-outline-success">
+                                <i class="fa-solid fa-check"></i> Approve
+                            </a>
+                        }
                     }
+
+                   
             </td>
 
             </tr>
