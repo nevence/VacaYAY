@@ -1,0 +1,76 @@
+﻿@using BusinessLogicLayer.Dto.PositionDto
+@using BusinessLogicLayer.Dto.VacationRequestDto
+@using BusinessLogicLayer.ViewModel
+@using DataAccesLayer.Entities
+@model PaginatedResponse<PositionDto>
+
+@{
+    var parameters = new PaginationParameters
+            {
+                CurrentPage = Model.CurrentPage,
+                TotalPages = Model.TotalPages,
+                PageSize = Model.PageSize,
+                TotalCount = Model.TotalCount,
+                HasPrevious = Model.HasPrevious,
+                HasNext = Model.HasNext,
+                SearchTerm = Model.SearchTerm,
+                LeaveType = Model.LeaveType,
+                Status = Model.Status,
+                Caption = Model.Caption,
+                ControllerName = "Position",
+                ActionName = "Index"
+            };
+}
+
+<h1>Positions</h1>
+
+<hr class="mb-5" />
+
+<div class="row mb-3">
+    <div class="col-md-12 d-flex justify-content-end">
+        <a asp-action="Create" class="btn btn-outline-primary">
+            <i class="fa-solid fa-plus me-2"></i>
+            Add a new position
+        </a>
+    </div>
+</div>
+<div class="row mb-1">
+    <div class="col-md-4">
+        <label for="search">Search by description:</label>
+        @await Html.PartialAsync("_SearchPartial", parameters)
+    </div>
+</div>
+<div class="col-md-4 text-right">
+    <a asp-action="Index" class="btn btn-secondary">Reset Filters</a>
+</div>
+
+
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Caption</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var position in Model.Items)
+        {
+            <tr>
+                <td>@position.Caption</td>
+                <td>@position.Description</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@position.Id" class="btn btn-sm btn-outline-warning">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@position.Id" class="btn btn-sm btn-outline-danger">
+                        <i class="fa-solid fa-trash-can"></i> Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@await Html.PartialAsync("_PaginationPartial", parameters)

@@ -1,0 +1,12 @@
+﻿@using BusinessLogicLayer.ViewModel
+@using static DataAccesLayer.Entities.Enums
+@model List<PositionCaption>
+
+@foreach (var position in Model)
+{
+    if(position == PositionCaption.None)
+    {
+        continue;
+    }
+    <option value="@position">@position.ToString()</option>
+}

@@ -16,6 +16,7 @@ namespace BusinessLogicLayer.Extensions
         {
             return new PositionDto
             {
+                Id = position.Id,
                 Caption = position.Caption,
                 Description = position.Description,
             };

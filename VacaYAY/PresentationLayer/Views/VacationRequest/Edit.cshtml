@@ -14,61 +14,27 @@
     <div class="col-md-6">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @if (this.User.IsInRole(Enums.Roles.HR.ToString()))
-            {
-                <div class="form-group mb-3">
-                    <label asp-for="HRComment" class="control-label mb-1">Add HR Comment</label>
-                    <input asp-for="HRComment" class="form-control" value="@Model.HRComment" />
-                    <span asp-validation-for="HRComment" class="text-danger"></span>
-                </div>
-                <div class="form-group mb-3">
-                    <label asp-for="LeaveType" class="control-label mb-1">Leave Type</label>
-                    <select asp-for="LeaveType" class="form-control">
-                        <option value="">Select Leave Type</option>
-                        @foreach (var leave in Enum.GetValues(typeof(VacationRequestLeaveType)).Cast<VacationRequestLeaveType>())
-                        {
-                            if (leave == VacationRequestLeaveType.None)
-                            {
-                                continue;
-                            }
-                            if (@leave == Model.LeaveType)
-                            {
-                                <option value="@leave" selected>@leave</option>
-                            }
-                            else
-                            {
-                                <option value="@leave">@leave</option>
-                            }
-                        }
-                    </select>
-                    <span asp-validation-for="LeaveType" class="text-danger"></span>
-                </div>
-                <input asp-for="EmployeeComment" type="hidden" value="@Model.EmployeeComment" />
-                <input asp-for="Status" type="hidden" value="@Model.Status" />
-                <input asp-for="StartDate" type="hidden" value="@Model.StartDate" />
-                <input asp-for="EndDate" type="hidden" value="@Model.EndDate" />
-            }
-            else
-            {
-                <div class="form-group mb-3">
-                    <label asp-for="EmployeeComment" class="control-label mb-1">Add Employee Comment</label>
-                    <input asp-for="EmployeeComment" class="form-control" value="@Model.EmployeeComment" />
-                    <span asp-validation-for="EmployeeComment" class="text-danger"></span>
-                </div>
-                <div class="form-group mb-3">
-                    <label asp-for="StartDate" class="control-label">Leave start date</label>
-                    <input asp-for="StartDate" class="form-control" />
-                    <span asp-validation-for="StartDate" class="text-danger"></span>
-                </div>
-                <div class="form-group mb-3">
-                    <label asp-for="EndDate" class="control-label">Leave end date</label>
-                    <input asp-for="EndDate" class="form-control" />
-                    <span asp-validation-for="EndDate" class="text-danger"></span>
-                </div>
-                <input asp-for="HRComment" type="hidden" value="@Model.HRComment" />
-                <input asp-for="Status" type="hidden" value="@Model.Status" />
-                <input asp-for="LeaveType" type="hidden" value="@Model.LeaveType" />
-            }
+
+            <div class="form-group mb-3">
+                <label asp-for="EmployeeComment" class="control-label mb-1">Add Employee Comment</label>
+                <input asp-for="EmployeeComment" class="form-control" value="@Model.EmployeeComment" />
+                <span asp-validation-for="EmployeeComment" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="StartDate" class="control-label">Leave start date</label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="EndDate" class="control-label">Leave end date</label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+
+            <input asp-for="HRComment" type="hidden" value="@Model.HRComment" />
+            <input asp-for="Status" type="hidden" value="@Model.Status" />
+            <input asp-for="LeaveType" type="hidden" value="@Model.LeaveType" />
+
             <input type="hidden" name="id" value="@Model.Id" />
             <div class="form-group mt-4">
                 <button type="submit" class="btn btn-success">

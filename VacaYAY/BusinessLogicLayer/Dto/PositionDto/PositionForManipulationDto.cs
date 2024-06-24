@@ -12,7 +12,6 @@ namespace BusinessLogicLayer.Dto.PositionDto
     public record PositionForManipulationDto
     {
         [Required(ErrorMessage = ErrorMessages.RequiredField)]
-        [MaxLength(50, ErrorMessage = ErrorMessages.MaxLength50)]
         public PositionCaption Caption { get; set; }
 
 

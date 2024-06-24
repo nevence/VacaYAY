@@ -19,4 +19,10 @@
     <ProjectReference Include="..\DataAccesLayer\DataAccesLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\HR\Data\" />
+    <Folder Include="Areas\HR\Models\" />
+    <Folder Include="Areas\HR\Views\VacationRequest\" />
+  </ItemGroup>
+
 </Project>

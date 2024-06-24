@@ -9,6 +9,7 @@ namespace BusinessLogicLayer.Dto.PositionDto
 {
     public record PositionDto
     {
+        public int Id { get; init; }
         public PositionCaption Caption { get; set; }
         public string Description { get; set; }
     }
